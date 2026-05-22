@@ -4,467 +4,373 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NAS Cat Sitter – Parit Raja</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream: #fdf6e3;
-    --warm: #f5e6c8;
-    --sand: #e8d5a3;
-    --brown: #8b5e3c;
-    --dark: #3d2b1f;
-    --orange: #e8832a;
-    --orange-light: #f5a94e;
-    --green: #6ab04c;
-    --paw: #c9956b;
-    --white: #ffffff;
-    --shadow: rgba(61,43,31,0.15);
-  }
+:root {
+  --cream: #fdf6e3;
+  --warm: #f5e6c8;
+  --sand: #e8d5a3;
+  --brown: #8b5e3c;
+  --dark: #3d2b1f;
+  --orange: #e8832a;
+  --orange-light: #f5a94e;
+  --green: #6ab04c;
+  --white: #ffffff;
+  --shadow: rgba(61,43,31,0.14);
+  --radius: 18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);overflow-x:hidden}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* PAW BG */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(circle 9px at 10% 12%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 13% 7%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 7% 7%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 9px at 60% 30%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 63% 25%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 57% 25%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 9px at 85% 60%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 88% 55%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 82% 55%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 9px at 30% 80%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 33% 75%,var(--sand) 100%,transparent 0),
+    radial-gradient(circle 6px at 27% 75%,var(--sand) 100%,transparent 0);
+  opacity:.35;pointer-events:none;z-index:0
+}
 
-  html { scroll-behavior: smooth; }
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--brown);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:64px;
+  box-shadow:0 3px 20px var(--shadow);
+}
+.nav-logo{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.3rem,3vw,1.7rem);
+  color:var(--cream);
+  display:flex;align-items:center;gap:8px;
+  text-decoration:none;white-space:nowrap;
+}
+.nav-links{display:flex;gap:clamp(14px,2.5vw,28px);list-style:none;align-items:center}
+.nav-links a{
+  color:var(--warm);text-decoration:none;
+  font-weight:700;font-size:clamp(.78rem,1.4vw,.92rem);letter-spacing:.4px;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--orange-light)}
+.nav-cta{
+  background:var(--orange)!important;color:#fff!important;
+  padding:7px 18px;border-radius:22px;
+  transition:background .2s,transform .15s!important;
+}
+.nav-cta:hover{background:var(--orange-light)!important;transform:scale(1.06)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:24px;height:3px;background:var(--cream);border-radius:3px;transition:.3s;display:block}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,6px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-6px)}
 
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--cream);
-    color: var(--dark);
-    overflow-x: hidden;
-  }
+/* HERO */
+#hero{
+  position:relative;z-index:1;
+  min-height:92vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:80px 5% 120px;
+  background:linear-gradient(155deg,var(--warm) 0%,var(--cream) 55%);
+  overflow:hidden;
+}
+.hero-inner{max-width:680px;margin:0 auto}
+.hero-badge{
+  display:inline-block;
+  background:var(--orange);color:#fff;
+  font-weight:800;font-size:clamp(.7rem,1.5vw,.8rem);letter-spacing:2px;
+  padding:5px 18px;border-radius:22px;margin-bottom:22px;
+  animation:fadeDown .7s ease both;
+}
+h1{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(2.6rem,7vw,5.8rem);
+  color:var(--brown);line-height:1.05;
+  animation:fadeDown .8s .1s ease both;
+}
+h1 em{color:var(--orange);font-style:normal}
+.hero-sub{
+  font-size:clamp(.9rem,2vw,1.15rem);
+  color:var(--dark);opacity:.75;
+  max-width:520px;margin:18px auto 36px;
+  animation:fadeDown .8s .2s ease both;
+  line-height:1.65;
+}
+.hero-btns{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  animation:fadeDown .8s .3s ease both;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:clamp(11px,2vw,14px) clamp(22px,3vw,32px);
+  border-radius:30px;
+  font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:clamp(.88rem,1.6vw,1rem);
+  cursor:pointer;border:none;transition:transform .15s,box-shadow .15s;
+  text-decoration:none;
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 28px var(--shadow)}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-secondary{background:var(--brown);color:var(--cream)}
+.hero-cats{
+  position:absolute;bottom:0;left:0;right:0;
+  height:80px;pointer-events:none;
+  display:flex;align-items:flex-end;justify-content:center;
+  gap:clamp(10px,2vw,22px);overflow:hidden;
+}
+.hero-cat{font-size:clamp(1.8rem,4vw,2.8rem);animation:bounce 2.4s ease-in-out infinite}
+.hero-cat:nth-child(2){animation-delay:.4s}
+.hero-cat:nth-child(3){animation-delay:.8s}
+.hero-cat:nth-child(4){animation-delay:1.2s}
+.hero-cat:nth-child(5){animation-delay:1.6s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
 
-  /* ── PAW PATTERN BACKGROUND ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(circle 8px at 20% 15%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 23% 10%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 17% 10%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 8px at 70% 45%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 73% 40%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 67% 40%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 8px at 40% 75%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 43% 70%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 37% 70%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 8px at 85% 85%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 88% 80%, var(--sand) 100%, transparent 0),
-      radial-gradient(circle 5px at 82% 80%, var(--sand) 100%, transparent 0);
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* SECTIONS */
+section{position:relative;z-index:1}
+.section-wrap{max-width:1100px;margin:0 auto;padding:0 5%}
+.section-header{text-align:center;margin-bottom:44px}
+.section-title{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.7rem,4vw,2.8rem);
+  color:var(--brown);margin-bottom:8px;
+}
+.section-sub{color:var(--dark);opacity:.6;font-size:clamp(.85rem,1.5vw,1rem);line-height:1.5}
+.paw-row{font-size:1.2rem;letter-spacing:8px;opacity:.35;margin-bottom:12px}
 
-  /* ── NAV ── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--brown);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5%; height: 62px;
-    box-shadow: 0 3px 16px var(--shadow);
-  }
+/* PACKAGES */
+#packages{padding:clamp(50px,8vw,90px) 0;background:var(--warm)}
+.packages-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));
+  gap:clamp(14px,2.5vw,24px);
+}
+.pkg-card{
+  background:var(--white);border-radius:var(--radius);
+  padding:clamp(24px,3vw,36px) clamp(18px,2.5vw,28px);
+  text-align:center;
+  box-shadow:0 6px 28px var(--shadow);
+  position:relative;overflow:hidden;
+  transition:transform .22s,box-shadow .22s;
+  border:3px solid transparent;
+}
+.pkg-card:hover{transform:translateY(-8px);box-shadow:0 18px 44px var(--shadow)}
+.pkg-card.featured{border-color:var(--orange)}
+.pkg-badge{
+  position:absolute;top:14px;right:-28px;
+  background:var(--orange);color:#fff;
+  font-size:.65rem;font-weight:800;
+  padding:4px 36px;transform:rotate(35deg);
+  letter-spacing:1px;
+}
+.pkg-emoji{font-size:clamp(2rem,4vw,3rem);margin-bottom:10px}
+.pkg-name{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,2.5vw,1.55rem);color:var(--brown)}
+.pkg-cats{font-size:.82rem;color:var(--dark);opacity:.6;margin:4px 0 16px}
+.pkg-price{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.5rem);color:var(--orange)}
+.pkg-price small{font-size:clamp(.75rem,1.5vw,.9rem);color:var(--dark);opacity:.6;font-family:'Nunito',sans-serif}
+.pkg-extra{margin-top:10px;font-size:.75rem;color:var(--dark);opacity:.5;font-style:italic}
 
-  .nav-logo {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.7rem; color: var(--cream);
-    display: flex; align-items: center; gap: 8px;
-    text-decoration: none;
-  }
-  .nav-logo span { font-size: 1.4rem; }
+/* SERVICES */
+#services{padding:clamp(50px,8vw,90px) 0;background:var(--cream)}
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));
+  gap:clamp(12px,2vw,20px);
+}
+.svc-card{
+  background:var(--white);border-radius:var(--radius);
+  padding:clamp(20px,3vw,30px) clamp(14px,2vw,22px);
+  text-align:center;
+  box-shadow:0 4px 18px var(--shadow);
+  transition:transform .2s;
+}
+.svc-card:hover{transform:translateY(-5px)}
+.svc-icon{font-size:clamp(1.8rem,3.5vw,2.4rem);margin-bottom:10px}
+.svc-title{font-weight:800;font-size:clamp(.82rem,1.5vw,.96rem);color:var(--brown);margin-bottom:5px}
+.svc-desc{font-size:clamp(.74rem,1.3vw,.82rem);color:var(--dark);opacity:.62;line-height:1.5}
 
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links a {
-    color: var(--warm); text-decoration: none;
-    font-weight: 700; font-size: .9rem; letter-spacing: .5px;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--orange-light); }
+/* ADD-ONS */
+#addons{padding:clamp(50px,8vw,90px) 0;background:var(--warm)}
+.addons-list{
+  max-width:700px;margin:0 auto;
+  display:flex;flex-direction:column;gap:clamp(12px,2vw,18px);
+}
+.addon-item{
+  background:var(--white);border-radius:14px;
+  padding:clamp(14px,2.5vw,20px) clamp(16px,3vw,26px);
+  display:flex;align-items:center;gap:clamp(12px,2vw,18px);
+  box-shadow:0 3px 14px var(--shadow);
+  transition:transform .15s;
+}
+.addon-item:hover{transform:translateX(6px)}
+.addon-icon{font-size:clamp(1.5rem,3vw,2rem);flex-shrink:0}
+.addon-text strong{display:block;font-weight:800;color:var(--brown);font-size:clamp(.85rem,1.5vw,.95rem);margin-bottom:2px}
+.addon-text p{font-size:clamp(.75rem,1.3vw,.83rem);color:var(--dark);opacity:.62;line-height:1.4}
+.addon-price{
+  margin-left:auto;flex-shrink:0;
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(.8rem,1.5vw,.9rem);
+  color:var(--orange);text-align:right;
+}
 
-  .nav-cta {
-    background: var(--orange); color: #fff !important;
-    padding: 7px 18px; border-radius: 20px;
-    transition: background .2s, transform .15s !important;
-  }
-  .nav-cta:hover { background: var(--orange-light) !important; transform: scale(1.05); }
+/* BOOKING */
+#booking{padding:clamp(50px,8vw,90px) 0;background:var(--cream)}
+.flow-steps{
+  display:flex;align-items:flex-start;justify-content:center;
+  flex-wrap:wrap;gap:6px;
+  max-width:900px;margin:0 auto 50px;
+}
+.flow-step{display:flex;flex-direction:column;align-items:center;text-align:center;width:clamp(90px,15vw,140px)}
+.step-circle{
+  width:clamp(50px,7vw,64px);height:clamp(50px,7vw,64px);
+  border-radius:50%;
+  background:var(--brown);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,2.5vw,1.5rem);
+  box-shadow:0 4px 14px var(--shadow);
+}
+.step-label{font-weight:800;font-size:clamp(.68rem,1.2vw,.8rem);color:var(--brown);margin-top:8px;line-height:1.3}
+.flow-arrow{font-size:clamp(1rem,2vw,1.4rem);color:var(--orange);margin-top:clamp(12px,2vw,18px);flex-shrink:0}
 
-  /* ── HERO ── */
-  #hero {
-    position: relative; z-index: 1;
-    min-height: 92vh;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 80px 5% 60px;
-    background: linear-gradient(160deg, var(--warm) 0%, var(--cream) 60%);
-    overflow: hidden;
-  }
+.booking-form-wrap{
+  max-width:660px;margin:0 auto;
+  background:var(--white);border-radius:22px;
+  padding:clamp(24px,5vw,44px);
+  box-shadow:0 8px 36px var(--shadow);
+}
+.form-title{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.3rem,2.5vw,1.6rem);
+  color:var(--brown);margin-bottom:24px;text-align:center;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,2vw,16px)}
+.form-grid .full{grid-column:1/-1}
+label{display:block;font-weight:700;font-size:clamp(.75rem,1.3vw,.83rem);color:var(--brown);margin-bottom:5px}
+input,select,textarea{
+  width:100%;padding:clamp(9px,1.5vw,12px) clamp(10px,2vw,14px);
+  border:2px solid var(--sand);border-radius:10px;
+  font-family:'Nunito',sans-serif;font-size:clamp(.82rem,1.4vw,.9rem);
+  color:var(--dark);background:var(--cream);
+  transition:border-color .2s;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--orange)}
+textarea{resize:vertical;min-height:76px}
+.pkg-select-group{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(6px,1.5vw,10px)}
+.pkg-radio{display:none}
+.pkg-radio+label{
+  cursor:pointer;
+  background:var(--cream);border:2px solid var(--sand);
+  border-radius:10px;padding:clamp(8px,1.5vw,12px) 4px;
+  text-align:center;font-size:clamp(.72rem,1.2vw,.8rem);font-weight:700;
+  margin-bottom:0;transition:all .2s;
+}
+.pkg-radio:checked+label{background:var(--orange);border-color:var(--orange);color:#fff}
+.submit-btn{
+  width:100%;margin-top:22px;
+  background:var(--orange);color:#fff;
+  border:none;border-radius:14px;
+  padding:clamp(12px,2vw,16px);
+  font-family:'Fredoka One',cursive;font-size:clamp(1rem,2vw,1.2rem);
+  cursor:pointer;transition:background .2s,transform .15s;
+}
+.submit-btn:hover{background:var(--brown);transform:scale(1.02)}
 
-  .hero-cats {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 90px; pointer-events: none;
-    display: flex; align-items: flex-end; justify-content: center; gap: 18px;
-  }
-  .hero-cat { font-size: 2.6rem; animation: bounce 2.4s ease-in-out infinite; }
-  .hero-cat:nth-child(2) { animation-delay: .4s; }
-  .hero-cat:nth-child(3) { animation-delay: .8s; }
-  .hero-cat:nth-child(4) { animation-delay: 1.2s; }
-  .hero-cat:nth-child(5) { animation-delay: 1.6s; }
-  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+/* CONTACT */
+#contact{
+  padding:clamp(50px,8vw,90px) 0;
+  background:var(--brown);text-align:center;
+}
+#contact .section-title{color:var(--cream)}
+#contact .section-sub{color:var(--warm);opacity:1}
+.contact-cards{
+  display:flex;flex-wrap:wrap;gap:clamp(12px,2.5vw,20px);
+  justify-content:center;max-width:700px;margin:0 auto 32px;
+}
+.contact-card{
+  background:rgba(255,255,255,.1);
+  border:2px solid rgba(255,255,255,.2);
+  border-radius:16px;
+  padding:clamp(18px,3vw,26px) clamp(24px,4vw,36px);
+  color:var(--cream);text-decoration:none;
+  font-weight:700;font-size:clamp(.85rem,1.6vw,.95rem);
+  display:flex;align-items:center;gap:12px;
+  transition:background .2s,transform .15s;
+}
+.contact-card:hover{background:rgba(255,255,255,.2);transform:scale(1.04)}
+.contact-card .cicon{font-size:clamp(1.3rem,2.5vw,1.6rem)}
+.contact-label{font-size:clamp(.72rem,1.2vw,.8rem);opacity:.65;margin-top:2px}
+.location-tag{font-size:clamp(.8rem,1.4vw,.88rem);color:var(--warm);opacity:.72;margin-top:0}
 
-  .hero-badge {
-    display: inline-block;
-    background: var(--orange); color: #fff;
-    font-weight: 800; font-size: .78rem; letter-spacing: 2px;
-    padding: 5px 16px; border-radius: 20px;
-    margin-bottom: 22px;
-    animation: fadeDown .7s ease both;
-  }
+footer{background:var(--dark);text-align:center;padding:22px 5%;font-size:.8rem;color:rgba(255,255,255,.38)}
 
-  h1 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(3rem, 8vw, 6rem);
-    color: var(--brown);
-    line-height: 1.05;
-    animation: fadeDown .8s .1s ease both;
-  }
-  h1 em { color: var(--orange); font-style: normal; }
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.active{display:flex}
+.modal{
+  background:var(--white);border-radius:22px;
+  padding:clamp(30px,5vw,50px) clamp(24px,4vw,42px);
+  text-align:center;max-width:380px;width:100%;
+  animation:popIn .3s ease;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+.modal-emoji{font-size:clamp(2.5rem,6vw,3.6rem);margin-bottom:14px}
+.modal h3{font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,3vw,1.6rem);color:var(--brown);margin-bottom:8px}
+.modal p{color:var(--dark);opacity:.7;font-size:clamp(.82rem,1.5vw,.9rem);line-height:1.55}
+.modal-close{
+  margin-top:20px;background:var(--orange);color:#fff;border:none;border-radius:12px;
+  padding:11px 30px;font-family:'Fredoka One',cursive;font-size:1rem;cursor:pointer;
+}
 
-  .hero-sub {
-    font-size: 1.15rem; color: var(--dark); opacity: .8;
-    max-width: 520px; margin: 18px auto 36px;
-    animation: fadeDown .8s .2s ease both;
-  }
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:none}
 
-  .hero-btns {
-    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-    animation: fadeDown .8s .3s ease both;
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hamburger{display:flex}
+  .nav-links{
+    display:none;flex-direction:column;
+    position:absolute;top:64px;right:0;left:0;
+    background:var(--brown);padding:22px 5% 28px;
+    gap:20px;box-shadow:0 6px 20px var(--shadow);
   }
-
-  .btn {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 13px 30px; border-radius: 28px;
-    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
-    cursor: pointer; border: none; transition: transform .15s, box-shadow .15s;
-    text-decoration: none;
-  }
-  .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 22px var(--shadow); }
-
-  .btn-primary { background: var(--orange); color: #fff; }
-  .btn-secondary { background: var(--brown); color: var(--cream); }
-
-  @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:none} }
-
-  /* ── SECTION COMMON ── */
-  section { position: relative; z-index: 1; }
-
-  .section-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.9rem, 4vw, 2.8rem);
-    color: var(--brown); text-align: center;
-    margin-bottom: 10px;
-  }
-  .section-sub {
-    text-align: center; color: var(--dark); opacity: .65;
-    margin-bottom: 44px; font-size: 1rem;
-  }
-  .paw-divider {
-    text-align: center; font-size: 1.4rem;
-    margin-bottom: 10px; opacity: .5;
-    letter-spacing: 6px;
-  }
-
-  /* ── PACKAGES ── */
-  #packages {
-    padding: 80px 5%;
-    background: var(--warm);
-  }
-
-  .packages-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px; max-width: 900px; margin: 0 auto;
-  }
-
-  .pkg-card {
-    background: var(--white);
-    border-radius: 22px;
-    padding: 34px 28px;
-    text-align: center;
-    box-shadow: 0 6px 28px var(--shadow);
-    position: relative; overflow: hidden;
-    transition: transform .2s, box-shadow .2s;
-    border: 3px solid transparent;
-  }
-  .pkg-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px var(--shadow); }
-  .pkg-card.featured { border-color: var(--orange); }
-  .pkg-card.featured::before {
-    content: '⭐ Most Popular';
-    position: absolute; top: 14px; right: -24px;
-    background: var(--orange); color: #fff;
-    font-size: .7rem; font-weight: 800;
-    padding: 4px 32px; transform: rotate(35deg);
-    letter-spacing: 1px;
-  }
-
-  .pkg-emoji { font-size: 2.8rem; margin-bottom: 12px; }
-  .pkg-name {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.5rem; color: var(--brown);
-  }
-  .pkg-cats {
-    font-size: .85rem; color: var(--dark); opacity: .65;
-    margin: 4px 0 18px;
-  }
-  .pkg-price {
-    font-family: 'Fredoka One', cursive;
-    font-size: 2.4rem; color: var(--orange);
-  }
-  .pkg-price span { font-size: 1rem; color: var(--dark); opacity: .6; }
-
-  .pkg-extra {
-    margin-top: 10px; font-size: .8rem;
-    color: var(--dark); opacity: .55;
-    font-style: italic;
-  }
-
-  /* ── SERVICES ── */
-  #services {
-    padding: 80px 5%;
-    background: var(--cream);
-  }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px; max-width: 1000px; margin: 0 auto;
-  }
-
-  .svc-card {
-    background: var(--white);
-    border-radius: 18px;
-    padding: 28px 22px;
-    text-align: center;
-    box-shadow: 0 4px 18px var(--shadow);
-    transition: transform .2s;
-  }
-  .svc-card:hover { transform: translateY(-4px); }
-  .svc-icon { font-size: 2.2rem; margin-bottom: 12px; }
-  .svc-title { font-weight: 800; font-size: .95rem; color: var(--brown); margin-bottom: 6px; }
-  .svc-desc { font-size: .82rem; color: var(--dark); opacity: .65; line-height: 1.5; }
-
-  /* ── ADD-ONS ── */
-  #addons {
-    padding: 80px 5%;
-    background: var(--warm);
-  }
-
-  .addons-list {
-    max-width: 680px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 16px;
-  }
-
-  .addon-item {
-    background: var(--white);
-    border-radius: 14px;
-    padding: 18px 24px;
-    display: flex; align-items: center; gap: 16px;
-    box-shadow: 0 3px 14px var(--shadow);
-    transition: transform .15s;
-  }
-  .addon-item:hover { transform: translateX(5px); }
-  .addon-item span:first-child { font-size: 1.8rem; flex-shrink: 0; }
-  .addon-text strong { display: block; font-weight: 800; color: var(--brown); margin-bottom: 2px; }
-  .addon-text p { font-size: .83rem; color: var(--dark); opacity: .65; }
-
-  /* ── BOOKING FLOW ── */
-  #booking {
-    padding: 80px 5%;
-    background: var(--cream);
-  }
-
-  .flow-steps {
-    display: flex; align-items: flex-start; justify-content: center;
-    flex-wrap: wrap; gap: 0; max-width: 900px; margin: 0 auto 50px;
-  }
-
-  .flow-step {
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center; width: 150px;
-  }
-
-  .step-circle {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: var(--brown); color: var(--cream);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Fredoka One', cursive; font-size: 1.5rem;
-    box-shadow: 0 4px 14px var(--shadow);
-    position: relative; z-index: 1;
-  }
-
-  .step-label {
-    font-weight: 800; font-size: .82rem; color: var(--brown);
-    margin-top: 10px; line-height: 1.3;
-  }
-
-  .flow-arrow {
-    font-size: 1.4rem; color: var(--orange);
-    margin-top: 18px; flex-shrink: 0;
-  }
-
-  /* ── BOOKING FORM ── */
-  .booking-form-wrap {
-    max-width: 640px; margin: 0 auto;
-    background: var(--white);
-    border-radius: 22px;
-    padding: 40px;
-    box-shadow: 0 8px 36px var(--shadow);
-  }
-
-  .form-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.6rem; color: var(--brown);
-    margin-bottom: 24px; text-align: center;
-  }
-
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-grid .full { grid-column: 1/-1; }
-
-  label { display: block; font-weight: 700; font-size: .83rem; color: var(--brown); margin-bottom: 5px; }
-
-  input, select, textarea {
-    width: 100%;
-    padding: 11px 14px;
-    border: 2px solid var(--sand);
-    border-radius: 10px;
-    font-family: 'Nunito', sans-serif;
-    font-size: .9rem; color: var(--dark);
-    background: var(--cream);
-    transition: border-color .2s;
-    outline: none;
-  }
-  input:focus, select:focus, textarea:focus { border-color: var(--orange); }
-  textarea { resize: vertical; min-height: 80px; }
-
-  .pkg-select-group {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
-  }
-  .pkg-radio { display: none; }
-  .pkg-radio + label {
-    cursor: pointer;
-    background: var(--cream); border: 2px solid var(--sand);
-    border-radius: 10px; padding: 10px 6px;
-    text-align: center; font-size: .78rem; font-weight: 700;
-    transition: all .2s;
-  }
-  .pkg-radio:checked + label {
-    background: var(--orange); border-color: var(--orange); color: #fff;
-  }
-
-  .submit-btn {
-    width: 100%; margin-top: 22px;
-    background: var(--orange); color: #fff;
-    border: none; border-radius: 14px;
-    padding: 15px; font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem; cursor: pointer;
-    transition: background .2s, transform .15s;
-  }
-  .submit-btn:hover { background: var(--brown); transform: scale(1.02); }
-
-  /* ── CONTACT ── */
-  #contact {
-    padding: 80px 5%;
-    background: var(--brown);
-    text-align: center;
-  }
-
-  #contact .section-title { color: var(--cream); }
-  #contact .section-sub { color: var(--warm); opacity: 1; }
-
-  .contact-cards {
-    display: flex; flex-wrap: wrap; gap: 20px;
-    justify-content: center; max-width: 700px; margin: 0 auto 40px;
-  }
-
-  .contact-card {
-    background: rgba(255,255,255,.1);
-    border: 2px solid rgba(255,255,255,.2);
-    border-radius: 16px;
-    padding: 24px 32px;
-    color: var(--cream);
-    text-decoration: none;
-    font-weight: 700; font-size: .95rem;
-    display: flex; align-items: center; gap: 12px;
-    transition: background .2s, transform .15s;
-  }
-  .contact-card:hover { background: rgba(255,255,255,.2); transform: scale(1.04); }
-  .contact-card span:first-child { font-size: 1.6rem; }
-
-  .contact-area {
-    font-size: .88rem; color: var(--warm); opacity: .8; margin-top: 6px;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--dark);
-    text-align: center;
-    padding: 24px 5%;
-    font-size: .82rem;
-    color: rgba(255,255,255,.4);
-  }
-
-  /* ── MODAL SUCCESS ── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 999;
-    background: rgba(0,0,0,.45);
-    align-items: center; justify-content: center;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--white);
-    border-radius: 22px;
-    padding: 50px 40px;
-    text-align: center;
-    max-width: 380px; width: 90%;
-    animation: popIn .3s ease;
-  }
-  @keyframes popIn { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:none} }
-  .modal-emoji { font-size: 3.5rem; margin-bottom: 16px; }
-  .modal h3 { font-family:'Fredoka One',cursive; font-size:1.6rem; color:var(--brown); margin-bottom:8px; }
-  .modal p { color:var(--dark); opacity:.7; font-size:.9rem; line-height:1.5; }
-  .modal-close {
-    margin-top: 22px;
-    background: var(--orange); color: #fff;
-    border: none; border-radius: 12px;
-    padding: 11px 30px; font-family:'Fredoka One',cursive;
-    font-size: 1rem; cursor: pointer;
-  }
-
-  /* ── HAMBURGER ── */
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-  .hamburger span { width: 24px; height: 3px; background: var(--cream); border-radius: 2px; transition: .3s; }
-
-  /* ── MOBILE ── */
-  @media (max-width: 700px) {
-    .hamburger { display: flex; }
-    .nav-links {
-      display: none; flex-direction: column;
-      position: absolute; top: 62px; right: 0; left: 0;
-      background: var(--brown);
-      padding: 20px 5% 24px;
-      gap: 18px;
-    }
-    .nav-links.open { display: flex; }
-    .form-grid { grid-template-columns: 1fr; }
-    .form-grid .full { grid-column: 1; }
-    .flow-step { width: 110px; }
-    .flow-arrow { display: none; }
-    .booking-form-wrap { padding: 28px 20px; }
-  }
+  .nav-links.open{display:flex}
+  .nav-links a{font-size:1rem}
+  .flow-arrow{display:none}
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .full{grid-column:1}
+}
+@media(max-width:480px){
+  .pkg-select-group{grid-template-columns:1fr}
+  .packages-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .addon-item{flex-direction:column;align-items:flex-start;gap:8px}
+  .addon-price{margin-left:0}
+}
+@media(max-width:360px){
+  .services-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#hero">🐾 <span>NAS</span> Cat Sitter</a>
+  <a class="nav-logo" href="#hero">🐾 NAS Cat Sitter</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#packages">Packages</a></li>
     <li><a href="#services">Services</a></li>
@@ -477,240 +383,108 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
-  <div>
-    <div class="hero-badge">🐾 Parit Raja, Johor</div>
-    <h1>Your Cats Are<br>Safe With <em>NAS</em></h1>
-    <p class="hero-sub">Professional, loving cat-sitting service. We clean, feed, play &amp; keep you updated — so you travel worry-free.</p>
+  <div class="hero-inner">
+    <div class="hero-badge" id="heroBadge">📍 Parit Raja, Johor</div>
+    <h1 id="heroTitle">Your Cats Are<br>Safe With <em>NAS</em></h1>
+    <p class="hero-sub" id="heroSub">Professional, loving cat-sitting service. We clean, feed, play &amp; keep you updated — so you travel worry-free.</p>
     <div class="hero-btns">
       <a href="#booking" class="btn btn-primary">📅 Book Now</a>
       <a href="#packages" class="btn btn-secondary">💰 See Packages</a>
     </div>
   </div>
   <div class="hero-cats">
-    <span class="hero-cat">🐱</span>
-    <span class="hero-cat">😺</span>
-    <span class="hero-cat">🐈</span>
-    <span class="hero-cat">😸</span>
-    <span class="hero-cat">🐾</span>
+    <span class="hero-cat">🐱</span><span class="hero-cat">😺</span>
+    <span class="hero-cat">🐈</span><span class="hero-cat">😸</span><span class="hero-cat">🐾</span>
   </div>
 </section>
 
-<!-- PACKAGES -->
 <section id="packages">
-  <div class="paw-divider">🐾 🐾 🐾</div>
-  <h2 class="section-title">Our Packages</h2>
-  <p class="section-sub">Transparent pricing — no hidden fees!</p>
-
-  <div class="packages-grid">
-    <div class="pkg-card">
-      <div class="pkg-emoji">🐱</div>
-      <div class="pkg-name">Pakej A</div>
-      <div class="pkg-cats">1 – 3 Cats</div>
-      <div class="pkg-price">RM15 <span>/ Trip</span></div>
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="paw-row">🐾 🐾 🐾</div>
+      <h2 class="section-title">Our Packages</h2>
+      <p class="section-sub">Transparent pricing — no hidden fees!</p>
     </div>
-    <div class="pkg-card featured">
-      <div class="pkg-emoji">🐱🐱</div>
-      <div class="pkg-name">Pakej B</div>
-      <div class="pkg-cats">4 – 6 Cats</div>
-      <div class="pkg-price">RM25 <span>/ Trip</span></div>
-    </div>
-    <div class="pkg-card">
-      <div class="pkg-emoji">🐱🐱🐱</div>
-      <div class="pkg-name">Pakej C</div>
-      <div class="pkg-cats">7 – 10 Cats</div>
-      <div class="pkg-price">RM35 <span>/ Trip</span></div>
-      <div class="pkg-extra">+RM2 / cat if more than 10</div>
-    </div>
+    <div class="packages-grid" id="packagesGrid"></div>
   </div>
 </section>
 
-<!-- SERVICES -->
 <section id="services">
-  <div class="paw-divider">🐾 🐾 🐾</div>
-  <h2 class="section-title">What We Do</h2>
-  <p class="section-sub">Every visit includes all of the following — no shortcuts!</p>
-
-  <div class="services-grid">
-    <div class="svc-card">
-      <div class="svc-icon">🧹</div>
-      <div class="svc-title">Clean Litter Box</div>
-      <div class="svc-desc">Scoop &amp; refill the litter box on every visit.</div>
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="paw-row">🐾 🐾 🐾</div>
+      <h2 class="section-title">What We Do</h2>
+      <p class="section-sub">Every visit includes all of the following — no shortcuts!</p>
     </div>
-    <div class="svc-card">
-      <div class="svc-icon">🏠</div>
-      <div class="svc-title">Clean Cage &amp; Area</div>
-      <div class="svc-desc">Wipe down the cage and surrounding space.</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">🍲</div>
-      <div class="svc-title">Food &amp; Water Refill</div>
-      <div class="svc-desc">Fresh food and water topped up every trip.</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">🎾</div>
-      <div class="svc-title">Playtime</div>
-      <div class="svc-desc">Fun &amp; enrichment time to keep them happy.</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">📸</div>
-      <div class="svc-title">Photo &amp; Video Updates</div>
-      <div class="svc-desc">Real-time updates sent directly to you.</div>
-    </div>
+    <div class="services-grid" id="servicesGrid"></div>
   </div>
 </section>
 
-<!-- ADD-ONS -->
 <section id="addons">
-  <div class="paw-divider">🐾 🐾 🐾</div>
-  <h2 class="section-title">Add-On Services</h2>
-  <p class="section-sub">Optional extras to give your cat the full VIP experience.</p>
-
-  <div class="addons-list">
-    <div class="addon-item">
-      <span>🛍️</span>
-      <div class="addon-text">
-        <strong>Buy Sand / Food</strong>
-        <p>We can purchase cat supplies on your behalf during the visit.</p>
-      </div>
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="paw-row">🐾 🐾 🐾</div>
+      <h2 class="section-title">Add-On Services</h2>
+      <p class="section-sub">Optional extras to give your cat the full VIP experience.</p>
     </div>
-    <div class="addon-item">
-      <span>🏥</span>
-      <div class="addon-text">
-        <strong>Transport to Vet</strong>
-        <p>Base fee applies + RM1 per km travelled.</p>
-      </div>
-    </div>
-    <div class="addon-item">
-      <span>✂️</span>
-      <div class="addon-text">
-        <strong>Transport to Spa (Petsmart BP)</strong>
-        <p>Drop-off &amp; pick-up service to Petsmart Batu Pahat for grooming.</p>
-      </div>
-    </div>
+    <div class="addons-list" id="addonsList"></div>
   </div>
 </section>
 
-<!-- BOOKING -->
 <section id="booking">
-  <div class="paw-divider">🐾 🐾 🐾</div>
-  <h2 class="section-title">Book a Visit</h2>
-  <p class="section-sub">Fill in the form below and we'll confirm your slot!</p>
-
-  <!-- FLOW STEPS -->
-  <div class="flow-steps">
-    <div class="flow-step">
-      <div class="step-circle">1</div>
-      <div class="step-label">Register &amp; Fill Details</div>
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="paw-row">🐾 🐾 🐾</div>
+      <h2 class="section-title">Book a Visit</h2>
+      <p class="section-sub">Fill in the form below and we'll confirm your slot!</p>
     </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">
-      <div class="step-circle">2</div>
-      <div class="step-label">Choose Package &amp; Add-ons</div>
+    <div class="flow-steps">
+      <div class="flow-step reveal"><div class="step-circle">1</div><div class="step-label">Register &amp; Fill Details</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step reveal"><div class="step-circle">2</div><div class="step-label">Choose Package &amp; Add-ons</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step reveal"><div class="step-circle">3</div><div class="step-label">Confirm Schedule</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step reveal"><div class="step-circle">4</div><div class="step-label">Payment</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step reveal"><div class="step-circle">5</div><div class="step-label">Relax 😺</div></div>
     </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">
-      <div class="step-circle">3</div>
-      <div class="step-label">Confirm Schedule</div>
-    </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">
-      <div class="step-circle">4</div>
-      <div class="step-label">Payment</div>
-    </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">
-      <div class="step-circle">5</div>
-      <div class="step-label">Sit Back &amp; Relax 😺</div>
-    </div>
-  </div>
-
-  <div class="booking-form-wrap">
-    <div class="form-title">📋 Booking Form</div>
-    <div class="form-grid">
-      <div>
-        <label for="fname">Full Name *</label>
-        <input type="text" id="fname" placeholder="e.g. Ahmad Farid">
-      </div>
-      <div>
-        <label for="phone">Phone Number *</label>
-        <input type="tel" id="phone" placeholder="011-XXXXXXXX">
-      </div>
-      <div>
-        <label for="date">Visit Date *</label>
-        <input type="date" id="date">
-      </div>
-      <div>
-        <label for="time">Preferred Time *</label>
-        <input type="time" id="time">
-      </div>
-      <div class="full">
-        <label>Select Package *</label>
-        <div class="pkg-select-group">
-          <input type="radio" name="pkg" id="pkgA" class="pkg-radio" value="A">
-          <label for="pkgA">Pakej A<br><small>1-3 Cats · RM15</small></label>
-
-          <input type="radio" name="pkg" id="pkgB" class="pkg-radio" value="B" checked>
-          <label for="pkgB">Pakej B<br><small>4-6 Cats · RM25</small></label>
-
-          <input type="radio" name="pkg" id="pkgC" class="pkg-radio" value="C">
-          <label for="pkgC">Pakej C<br><small>7-10 Cats · RM35</small></label>
+    <div class="booking-form-wrap reveal">
+      <div class="form-title">📋 Booking Form</div>
+      <div class="form-grid">
+        <div><label for="fname">Full Name *</label><input type="text" id="fname" placeholder="e.g. Ahmad Farid"></div>
+        <div><label for="phone">Phone Number *</label><input type="tel" id="phone" placeholder="011-XXXXXXXX"></div>
+        <div><label for="bdate">Visit Date *</label><input type="date" id="bdate"></div>
+        <div><label for="btime">Preferred Time *</label><input type="time" id="btime"></div>
+        <div class="full">
+          <label>Select Package *</label>
+          <div class="pkg-select-group" id="pkgSelectGroup"></div>
         </div>
+        <div><label for="catcount">Number of Cats *</label><input type="number" id="catcount" min="1" max="50" placeholder="e.g. 3"></div>
+        <div><label for="addonSel">Add-on Service</label><select id="addonSel"></select></div>
+        <div class="full"><label for="notes">Notes / Special Requests</label><textarea id="notes" placeholder="Dietary needs, medical info, special instructions..."></textarea></div>
       </div>
-      <div>
-        <label for="catcount">Number of Cats *</label>
-        <input type="number" id="catcount" min="1" max="30" placeholder="e.g. 3">
-      </div>
-      <div>
-        <label for="addons-select">Add-on Service</label>
-        <select id="addons-select">
-          <option value="none">None</option>
-          <option value="buy">Buy Sand / Food</option>
-          <option value="vet">Transport to Vet</option>
-          <option value="spa">Transport to Spa</option>
-        </select>
-      </div>
-      <div class="full">
-        <label for="notes">Notes / Special Requests</label>
-        <textarea id="notes" placeholder="Any dietary requirements, medical needs, or special instructions..."></textarea>
-      </div>
+      <button class="submit-btn" onclick="submitBooking()">🐾 Submit Booking</button>
     </div>
-    <button class="submit-btn" onclick="submitBooking()">🐾 Submit Booking</button>
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
-  <h2 class="section-title">Get In Touch</h2>
-  <p class="section-sub">WhatsApp us directly to confirm or ask anything!</p>
-
-  <div class="contact-cards">
-    <a class="contact-card" href="https://wa.me/601119971401" target="_blank">
-      <span>💬</span>
-      <div>
-        <div>011-19971401</div>
-        <div class="contact-area">Ikin</div>
-      </div>
-    </a>
-    <a class="contact-card" href="https://wa.me/601140558865" target="_blank">
-      <span>💬</span>
-      <div>
-        <div>011-40558865</div>
-        <div class="contact-area">Nizam</div>
-      </div>
-    </a>
+  <div class="section-wrap">
+    <div class="section-header">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="section-sub">WhatsApp us directly to confirm or ask anything!</p>
+    </div>
+    <div class="contact-cards" id="contactCards"></div>
+    <p class="location-tag" id="locationTag">📍 Serving Parit Raja &amp; surrounding areas, Batu Pahat, Johor</p>
   </div>
-
-  <p style="color:var(--warm);opacity:.75;font-size:.88rem;">📍 Serving Parit Raja &amp; surrounding areas, Batu Pahat, Johor</p>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <p>🐾 NAS Cat Sitter – Parit Raja, Johor &nbsp;|&nbsp; &copy; 2026 All rights reserved</p>
+  <p id="footerText">🐾 NAS Cat Sitter – Parit Raja, Johor &nbsp;|&nbsp; © 2026 All rights reserved</p>
 </footer>
 
-<!-- SUCCESS MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-emoji">🎉😺</div>
@@ -721,78 +495,168 @@
 </div>
 
 <script>
-  // Hamburger
-  document.getElementById('hamburger').addEventListener('click', function() {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
+// ── DEFAULT DATA ──
+const NAS_DEFAULT = {
+  business:{name:"NAS Cat Sitter",tagline:"Your Cats Are Safe With NAS",sub:"Professional, loving cat-sitting service. We clean, feed, play & keep you updated — so you travel worry-free.",location:"Parit Raja, Batu Pahat, Johor",phone1:{number:"601119971401",label:"Ikin"},phone2:{number:"601140558865",label:"Nizam"}},
+  packages:[
+    {id:"A",name:"Pakej A",minCats:1,maxCats:3,price:15,emoji:"🐱",popular:false},
+    {id:"B",name:"Pakej B",minCats:4,maxCats:6,price:25,emoji:"🐱🐱",popular:true},
+    {id:"C",name:"Pakej C",minCats:7,maxCats:10,price:35,emoji:"🐱🐱🐱",popular:false}
+  ],
+  extraCatFee:2,extraCatThreshold:10,
+  services:[
+    {id:1,icon:"🧹",title:"Clean Litter Box",desc:"Scoop & refill the litter box on every visit."},
+    {id:2,icon:"🏠",title:"Clean Cage & Area",desc:"Wipe down the cage and surrounding space."},
+    {id:3,icon:"🍲",title:"Food & Water Refill",desc:"Fresh food and water topped up every trip."},
+    {id:4,icon:"🎾",title:"Playtime",desc:"Fun & enrichment time to keep them happy."},
+    {id:5,icon:"📸",title:"Photo & Video Updates",desc:"Real-time updates sent directly to you."}
+  ],
+  addons:[
+    {id:1,icon:"🛍️",title:"Buy Sand / Food",desc:"We purchase cat supplies on your behalf.",priceNote:"Cost of items"},
+    {id:2,icon:"🏥",title:"Transport to Vet",desc:"Drop-off & pick-up to the vet.",priceNote:"Base fee + RM1/km"},
+    {id:3,icon:"✂️",title:"Transport to Spa",desc:"Grooming drop-off at Petsmart BP.",priceNote:"Base fee + RM1/km"}
+  ],
+  bookings:[]
+};
 
-  // Close nav on link click
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => {
-      document.getElementById('navLinks').classList.remove('open');
-    });
-  });
+function getData(){
+  try{const s=localStorage.getItem('nas_data');if(s)return JSON.parse(s);}catch(e){}
+  return JSON.parse(JSON.stringify(NAS_DEFAULT));
+}
 
-  // Booking submit
-  function submitBooking() {
-    const name = document.getElementById('fname').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const date = document.getElementById('date').value;
-    const pkg = document.querySelector('input[name="pkg"]:checked')?.value;
-    const cats = document.getElementById('catcount').value;
+let D = getData();
 
-    if (!name || !phone || !date || !pkg || !cats) {
-      alert('Please fill in all required fields (*).');
-      return;
-    }
+// ── RENDER ──
+function render(){
+  D = getData();
+  const b = D.business;
 
-    // Build WhatsApp message
-    const addon = document.getElementById('addons-select').value;
-    const notes = document.getElementById('notes').value.trim();
-    const addonText = addon !== 'none' ? addon : 'None';
-    const msg = encodeURIComponent(
-      `🐾 *New Booking from NAS Cat Sitter Website*\n\n` +
-      `*Name:* ${name}\n*Phone:* ${phone}\n*Date:* ${date}\n` +
-      `*Package:* ${pkg}\n*Cats:* ${cats}\n*Add-on:* ${addonText}\n` +
-      (notes ? `*Notes:* ${notes}` : '')
-    );
+  // Hero
+  document.getElementById('heroBadge').textContent = '📍 ' + b.location;
+  document.getElementById('heroTitle').innerHTML = b.tagline.replace('NAS','<em>NAS</em>');
+  document.getElementById('heroSub').textContent = b.sub;
 
-    // Open WhatsApp for Ikin
-    window.open(`https://wa.me/601119971401?text=${msg}`, '_blank');
+  // Packages
+  const pg = document.getElementById('packagesGrid');
+  pg.innerHTML = D.packages.map(p=>`
+    <div class="pkg-card${p.popular?' featured':''} reveal">
+      ${p.popular?'<div class="pkg-badge">⭐ Most Popular</div>':''}
+      <div class="pkg-emoji">${p.emoji}</div>
+      <div class="pkg-name">${p.name}</div>
+      <div class="pkg-cats">${p.minCats} – ${p.maxCats} Cats</div>
+      <div class="pkg-price">RM${p.price} <small>/ Trip</small></div>
+      ${p.id===D.packages[D.packages.length-1].id?`<div class="pkg-extra">+RM${D.extraCatFee}/cat if more than ${D.extraCatThreshold}</div>`:''}
+    </div>`).join('');
 
-    // Show modal
-    document.getElementById('modal').classList.add('active');
-  }
+  // Services
+  const sg = document.getElementById('servicesGrid');
+  sg.innerHTML = D.services.map(s=>`
+    <div class="svc-card reveal">
+      <div class="svc-icon">${s.icon}</div>
+      <div class="svc-title">${s.title}</div>
+      <div class="svc-desc">${s.desc}</div>
+    </div>`).join('');
 
-  function closeModal() {
-    document.getElementById('modal').classList.remove('active');
-  }
+  // Addons
+  const al = document.getElementById('addonsList');
+  al.innerHTML = D.addons.map(a=>`
+    <div class="addon-item reveal">
+      <span class="addon-icon">${a.icon}</span>
+      <div class="addon-text">
+        <strong>${a.title}</strong>
+        <p>${a.desc}</p>
+      </div>
+      <div class="addon-price">${a.priceNote||''}</div>
+    </div>`).join('');
 
-  // Close modal on overlay click
-  document.getElementById('modal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
+  // Package radio buttons
+  const psg = document.getElementById('pkgSelectGroup');
+  psg.innerHTML = D.packages.map((p,i)=>`
+    <input type="radio" name="pkg" id="pkg${p.id}" class="pkg-radio" value="${p.id}" ${i===1?'checked':''}>
+    <label for="pkg${p.id}">${p.name}<br><small>${p.minCats}-${p.maxCats} Cats · RM${p.price}</small></label>
+  `).join('');
 
-  // Set min date to today
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('date').min = today;
+  // Addon select
+  const as = document.getElementById('addonSel');
+  as.innerHTML = '<option value="none">None</option>' +
+    D.addons.map(a=>`<option value="${a.id}">${a.title}</option>`).join('');
 
-  // Scroll reveal animation
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
+  // Contact
+  const cc = document.getElementById('contactCards');
+  cc.innerHTML = `
+    <a class="contact-card" href="https://wa.me/${b.phone1.number}" target="_blank">
+      <span class="cicon">💬</span>
+      <div><div>${b.phone1.number.replace('60','0')}</div><div class="contact-label">${b.phone1.label}</div></div>
+    </a>
+    <a class="contact-card" href="https://wa.me/${b.phone2.number}" target="_blank">
+      <span class="cicon">💬</span>
+      <div><div>${b.phone2.number.replace('60','0')}</div><div class="contact-label">${b.phone2.label}</div></div>
+    </a>`;
 
-  document.querySelectorAll('.pkg-card, .svc-card, .addon-item, .flow-step').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity .5s ease, transform .5s ease';
+  document.getElementById('locationTag').textContent = '📍 Serving ' + b.location;
+  document.getElementById('footerText').textContent = '🐾 ' + b.name + ' – ' + b.location + '  |  © ' + new Date().getFullYear() + ' All rights reserved';
+  document.title = b.name + ' – Parit Raja';
+
+  // Re-observe reveal elements
+  document.querySelectorAll('.reveal').forEach(el=>{
+    el.style.opacity='0';el.style.transform='translateY(26px)';
     observer.observe(el);
   });
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1});
+
+// ── BOOKING ──
+function submitBooking(){
+  const name=document.getElementById('fname').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const date=document.getElementById('bdate').value;
+  const time=document.getElementById('btime').value;
+  const pkg=document.querySelector('input[name="pkg"]:checked')?.value;
+  const cats=document.getElementById('catcount').value;
+  if(!name||!phone||!date||!pkg||!cats){alert('Please fill in all required fields (*).');return;}
+  const addonVal=document.getElementById('addonSel').value;
+  const addonLabel=addonVal==='none'?'None':D.addons.find(a=>a.id==addonVal)?.title||'None';
+  const notes=document.getElementById('notes').value.trim();
+  const pkgObj=D.packages.find(p=>p.id===pkg);
+  const msg=encodeURIComponent(
+    `🐾 *New Booking – NAS Cat Sitter*\n\n`+
+    `*Name:* ${name}\n*Phone:* ${phone}\n*Date:* ${date} @ ${time||'TBD'}\n`+
+    `*Package:* ${pkgObj?.name||pkg} (RM${pkgObj?.price||'?'})\n`+
+    `*Cats:* ${cats}\n*Add-on:* ${addonLabel}\n`+
+    (notes?`*Notes:* ${notes}`:'')
+  );
+  // Save booking
+  D.bookings = D.bookings||[];
+  D.bookings.push({name,phone,date,time,pkg,cats,addon:addonLabel,notes,status:'Pending',created:new Date().toISOString()});
+  localStorage.setItem('nas_data',JSON.stringify(D));
+  window.open(`https://wa.me/${D.business.phone1.number}?text=${msg}`,'_blank');
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('navLinks').classList.remove('open');
+}));
+
+// Date min
+const today=new Date().toISOString().split('T')[0];
+document.getElementById('bdate').min=today;
+
+// Listen for admin changes
+window.addEventListener('storage',e=>{if(e.key==='nas_data')render()});
+
+render();
 </script>
 </body>
 </html>
