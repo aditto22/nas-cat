@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAS Admin – Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1a1208;--surface:#251a0e;--card:#2f2010;--border:#4a3520;
+  --brown:#8b5e3c;--orange:#e8832a;--orange-l:#f5a94e;
+  --cream:#fdf6e3;--warm:#f5e6c8;--sand:#e8d5a3;
+  --green:#6ab04c;--red:#e05252;--blue:#4a9ede;
+  --text:#f0dcc0;--muted:#9b7d5e;
+  --shadow:rgba(0,0,0,.4);--radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* LOGIN */
+#loginScreen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;padding:20px;
+  background:radial-gradient(ellipse at center,#2a1a0a 0%,#0e0804 100%);
+}
+.login-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:22px;
+  padding:clamp(32px,6vw,54px) clamp(28px,5vw,50px);
+  text-align:center;width:100%;max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.login-logo{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,5vw,2.4rem);color:var(--orange);margin-bottom:4px}
+.login-sub{font-size:.85rem;color:var(--muted);margin-bottom:30px}
+.login-field{margin-bottom:16px;text-align:left}
+.login-field label{display:block;font-weight:700;font-size:.8rem;color:var(--muted);margin-bottom:6px;letter-spacing:.5px}
+.login-field input{
+  width:100%;padding:12px 16px;
+  background:var(--card);border:1.5px solid var(--border);border-radius:10px;
+  color:var(--text);font-family:'Nunito',sans-serif;font-size:.95rem;outline:none;
+  transition:border-color .2s;
+}
+.login-field input:focus{border-color:var(--orange)}
+.login-btn{
+  width:100%;padding:14px;margin-top:6px;
+  background:var(--orange);color:#fff;border:none;border-radius:12px;
+  font-family:'Fredoka One',cursive;font-size:1.15rem;cursor:pointer;
+  transition:background .2s,transform .15s;
+}
+.login-btn:hover{background:var(--orange-l);transform:scale(1.02)}
+.login-err{color:var(--red);font-size:.82rem;margin-top:10px;display:none}
+
+/* LAYOUT */
+#adminApp{display:none}
+.layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  width:clamp(200px,22vw,260px);background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:50;
+  transition:transform .3s;
+}
+.sidebar-logo{
+  padding:22px 20px 18px;
+  font-family:'Fredoka One',cursive;font-size:1.35rem;color:var(--orange);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:9px;
+}
+.sidebar-logo small{font-size:.68rem;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;letter-spacing:1px}
+.sidebar-nav{flex:1;padding:18px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:10px;
+  cursor:pointer;font-weight:700;font-size:.88rem;
+  color:var(--muted);transition:all .18s;border:none;background:none;text-align:left;width:100%;
+}
+.nav-item:hover{background:var(--card);color:var(--text)}
+.nav-item.active{background:var(--orange);color:#fff}
+.nav-icon{font-size:1.1rem;width:22px;text-align:center;flex-shrink:0}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border)}
+.logout-btn{
+  width:100%;padding:10px;background:transparent;
+  border:1.5px solid var(--border);border-radius:10px;
+  color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;
+  cursor:pointer;transition:all .2s;
+}
+.logout-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* MAIN */
+.main{
+  margin-left:clamp(200px,22vw,260px);flex:1;
+  display:flex;flex-direction:column;min-height:100vh;
+}
+.topbar{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 clamp(16px,3vw,28px);height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:40;
+}
+.topbar-title{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.5vw,1.4rem);color:var(--orange)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;padding:4px}
+.view-site-btn{
+  padding:7px 16px;background:var(--brown);color:var(--cream);
+  border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;
+  font-size:.8rem;cursor:pointer;text-decoration:none;
+  transition:background .2s;
+}
+.view-site-btn:hover{background:var(--orange)}
+
+/* CONTENT */
+.content{flex:1;padding:clamp(18px,3vw,32px);max-width:1200px;width:100%}
+
+/* PANELS */
+.panel{display:none}
+.panel.active{display:block}
+
+/* DASHBOARD STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:clamp(12px,2vw,18px);margin-bottom:28px}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:clamp(18px,3vw,24px);text-align:center;
+  transition:transform .2s;
+}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-icon{font-size:clamp(1.8rem,4vw,2.4rem);margin-bottom:8px}
+.stat-val{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.2rem);color:var(--orange)}
+.stat-label{font-size:.78rem;color:var(--muted);font-weight:700;letter-spacing:.5px}
+
+/* SECTION HEADERS */
+.panel-header{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;
+  margin-bottom:20px;
+}
+.panel-header h2{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,2.5vw,1.5rem);color:var(--orange)}
+.add-btn{
+  padding:9px 18px;background:var(--orange);color:#fff;
+  border:none;border-radius:10px;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;
+  cursor:pointer;transition:background .15s,transform .15s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.add-btn:hover{background:var(--orange-l);transform:scale(1.04)}
+
+/* CARDS / ROWS */
+.item-list{display:flex;flex-direction:column;gap:12px}
+.item-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:clamp(14px,2.5vw,20px) clamp(16px,3vw,22px);
+  display:flex;align-items:center;gap:clamp(10px,2vw,16px);flex-wrap:wrap;
+}
+.item-card .item-icon{font-size:clamp(1.4rem,3vw,1.9rem);flex-shrink:0}
+.item-card .item-info{flex:1;min-width:120px}
+.item-card .item-info strong{display:block;font-weight:800;color:var(--text);font-size:clamp(.85rem,1.5vw,.95rem)}
+.item-card .item-info span{font-size:clamp(.73rem,1.2vw,.82rem);color:var(--muted)}
+.item-card .item-price{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.3rem);color:var(--orange);flex-shrink:0}
+.item-actions{display:flex;gap:8px;flex-shrink:0}
+.edit-btn,.del-btn{
+  padding:7px 14px;border:none;border-radius:8px;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:all .15s;
+}
+.edit-btn{background:var(--brown);color:var(--cream)}
+.edit-btn:hover{background:var(--orange)}
+.del-btn{background:rgba(224,82,82,.15);color:var(--red)}
+.del-btn:hover{background:var(--red);color:#fff}
+
+/* POPULAR BADGE */
+.pop-badge{
+  padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:800;letter-spacing:.5px;
+  background:var(--orange);color:#fff;
+}
+
+/* BOOKINGS TABLE */
+.bookings-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:clamp(.73rem,1.3vw,.85rem)}
+thead{background:var(--card)}
+th{padding:12px 14px;text-align:left;color:var(--muted);font-weight:700;font-size:.75rem;letter-spacing:.5px;white-space:nowrap}
+tbody tr{border-top:1px solid var(--border);transition:background .15s}
+tbody tr:hover{background:var(--card)}
+td{padding:11px 14px;color:var(--text);vertical-align:middle}
+.status-badge{
+  padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:800;
+  display:inline-block;
+}
+.status-Pending{background:rgba(232,131,42,.2);color:var(--orange)}
+.status-Confirmed{background:rgba(106,176,76,.2);color:var(--green)}
+.status-Done{background:rgba(74,158,222,.2);color:var(--blue)}
+.status-Cancelled{background:rgba(224,82,82,.2);color:var(--red)}
+.status-select{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  font-family:'Nunito',sans-serif;font-size:.75rem;padding:4px 8px;border-radius:6px;cursor:pointer;
+}
+.empty-msg{text-align:center;padding:40px;color:var(--muted);font-size:.9rem}
+
+/* SETTINGS FORM */
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(12px,2vw,18px)}
+.setting-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(18px,3vw,24px)}
+.setting-card h3{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--orange);margin-bottom:16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:700;font-size:.78rem;color:var(--muted);margin-bottom:5px;letter-spacing:.3px}
+.field input,.field select,.field textarea{
+  width:100%;padding:10px 13px;
+  background:var(--bg);border:1.5px solid var(--border);border-radius:9px;
+  color:var(--text);font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;
+  transition:border-color .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--orange)}
+.field textarea{resize:vertical;min-height:72px}
+.save-btn{
+  padding:10px 22px;background:var(--green);color:#fff;
+  border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:.85rem;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:6px;margin-top:4px;
+}
+.save-btn:hover{background:#82c963;transform:scale(1.03)}
+
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.65);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex}
+.modal-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:clamp(24px,4vw,36px);width:100%;max-width:480px;
+  max-height:90vh;overflow-y:auto;
+  animation:popIn .25s ease;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:none}}
+.modal-box h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--orange);margin-bottom:20px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.cancel-btn{
+  padding:9px 20px;background:transparent;border:1.5px solid var(--border);
+  border-radius:10px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;
+  font-size:.85rem;cursor:pointer;transition:all .15s;
+}
+.cancel-btn:hover{border-color:var(--muted);color:var(--text)}
+.confirm-btn{
+  padding:9px 22px;background:var(--orange);color:#fff;border:none;border-radius:10px;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .15s;
+}
+.confirm-btn:hover{background:var(--orange-l)}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:999;
+  background:var(--green);color:#fff;
+  padding:12px 22px;border-radius:12px;
+  font-weight:700;font-size:.88rem;
+  transform:translateY(80px);opacity:0;
+  transition:all .35s ease;pointer-events:none;
+  max-width:calc(100vw - 48px);
+}
+.toast.show{transform:none;opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:none}
+  .main{margin-left:0}
+  .menu-toggle{display:block}
+  .sidebar-overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:49;
+  }
+  .sidebar-overlay.open{display:block}
+}
+@media(max-width:520px){
+  .item-card{flex-direction:column;align-items:flex-start}
+  .item-actions{width:100%;justify-content:flex-end}
+  table{font-size:.7rem}
+  th,td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🐾 NAS Admin</div>
+    <div class="login-sub">MANAGEMENT DASHBOARD</div>
+    <div class="login-field">
+      <label>USERNAME</label>
+      <input type="text" id="loginUser" placeholder="admin" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>PASSWORD</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-err" id="loginErr">❌ Incorrect username or password.</div>
+    <p style="margin-top:18px;font-size:.72rem;color:var(--muted)">Default: admin / nas2026</p>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="adminApp">
+  <div class="layout">
+    <!-- Sidebar overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        🐾 <div><div>NAS Admin</div><small>CAT SITTER</small></div>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-panel="dashboard" onclick="switchPanel(this)"><span class="nav-icon">📊</span> Dashboard</button>
+        <button class="nav-item" data-panel="packages" onclick="switchPanel(this)"><span class="nav-icon">📦</span> Packages</button>
+        <button class="nav-item" data-panel="services" onclick="switchPanel(this)"><span class="nav-icon">✅</span> Services</button>
+        <button class="nav-item" data-panel="addons" onclick="switchPanel(this)"><span class="nav-icon">➕</span> Add-ons</button>
+        <button class="nav-item" data-panel="bookings" onclick="switchPanel(this)"><span class="nav-icon">📅</span> Bookings</button>
+        <button class="nav-item" data-panel="settings" onclick="switchPanel(this)"><span class="nav-icon">⚙️</span> Settings</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="topbar">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+        <div class="topbar-right">
+          <a href="index.html" target="_blank" class="view-site-btn">🌐 View Site</a>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <div class="panel active" id="panel-dashboard">
+          <div class="stats-grid" id="statsGrid"></div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px">
+            <h3 style="font-family:'Fredoka One',cursive;color:var(--orange);margin-bottom:14px">Recent Bookings</h3>
+            <div id="recentBookings"></div>
+          </div>
+        </div>
+
+        <!-- PACKAGES -->
+        <div class="panel" id="panel-packages">
+          <div class="panel-header">
+            <h2>📦 Packages</h2>
+            <button class="add-btn" onclick="openPackageModal()">＋ Add Package</button>
+          </div>
+          <div class="item-list" id="pkgList"></div>
+          <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px">
+            <h3 style="font-family:'Fredoka One',cursive;color:var(--orange);margin-bottom:12px;font-size:1rem">Extra Cat Fee</h3>
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+              <div class="field" style="margin:0;flex:1;min-width:160px">
+                <label>Fee per extra cat (RM)</label>
+                <input type="number" id="extraFeeInput" step="0.5" min="0">
+              </div>
+              <div class="field" style="margin:0;flex:1;min-width:160px">
+                <label>Applies when cats exceed</label>
+                <input type="number" id="extraThreshInput" min="1">
+              </div>
+              <button class="save-btn" onclick="saveExtraFee()">💾 Save</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="panel" id="panel-services">
+          <div class="panel-header">
+            <h2>✅ Services</h2>
+            <button class="add-btn" onclick="openServiceModal()">＋ Add Service</button>
+          </div>
+          <div class="item-list" id="svcList"></div>
+        </div>
+
+        <!-- ADD-ONS -->
+        <div class="panel" id="panel-addons">
+          <div class="panel-header">
+            <h2>➕ Add-on Services</h2>
+            <button class="add-btn" onclick="openAddonModal()">＋ Add Add-on</button>
+          </div>
+          <div class="item-list" id="addonList"></div>
+        </div>
+
+        <!-- BOOKINGS -->
+        <div class="panel" id="panel-bookings">
+          <div class="panel-header">
+            <h2>📅 Bookings</h2>
+            <button class="add-btn" onclick="clearBookings()" style="background:var(--red)">🗑 Clear All</button>
+          </div>
+          <div class="bookings-wrap">
+            <table>
+              <thead><tr>
+                <th>#</th><th>Name</th><th>Phone</th><th>Date</th>
+                <th>Package</th><th>Cats</th><th>Add-on</th><th>Status</th><th>Action</th>
+              </tr></thead>
+              <tbody id="bookingsTbody"></tbody>
+            </table>
+            <div class="empty-msg" id="bookingsEmpty" style="display:none">No bookings yet. They'll appear here when customers book via the website.</div>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="panel" id="panel-settings">
+          <div class="panel-header"><h2>⚙️ Business Settings</h2></div>
+          <div class="settings-grid">
+            <div class="setting-card">
+              <h3>🏢 Business Info</h3>
+              <div class="field"><label>Business Name</label><input type="text" id="bName"></div>
+              <div class="field"><label>Tagline (Hero Title)</label><input type="text" id="bTagline"></div>
+              <div class="field"><label>Subtitle (Hero Description)</label><textarea id="bSub"></textarea></div>
+              <div class="field"><label>Location / Area</label><input type="text" id="bLocation"></div>
+              <button class="save-btn" onclick="saveBusiness()">💾 Save Business Info</button>
+            </div>
+            <div class="setting-card">
+              <h3>📞 Contact Numbers</h3>
+              <div class="field"><label>Phone 1 – Number (with country code, no +)</label><input type="text" id="bPhone1" placeholder="601119971401"></div>
+              <div class="field"><label>Phone 1 – Label</label><input type="text" id="bPhone1Label" placeholder="Ikin"></div>
+              <div class="field"><label>Phone 2 – Number (with country code, no +)</label><input type="text" id="bPhone2" placeholder="601140558865"></div>
+              <div class="field"><label>Phone 2 – Label</label><input type="text" id="bPhone2Label" placeholder="Nizam"></div>
+              <button class="save-btn" onclick="saveContact()">💾 Save Contact</button>
+            </div>
+            <div class="setting-card">
+              <h3>🔐 Change Password</h3>
+              <div class="field"><label>Current Password</label><input type="password" id="curPass"></div>
+              <div class="field"><label>New Password</label><input type="password" id="newPass"></div>
+              <div class="field"><label>Confirm New Password</label><input type="password" id="confPass"></div>
+              <button class="save-btn" onclick="changePassword()">🔒 Change Password</button>
+              <div id="passMsg" style="margin-top:10px;font-size:.8rem"></div>
+            </div>
+            <div class="setting-card">
+              <h3>🔄 Data Management</h3>
+              <p style="font-size:.82rem;color:var(--muted);margin-bottom:16px;line-height:1.5">All data is stored in your browser's localStorage and shared with the main website.</p>
+              <button class="save-btn" onclick="exportData()" style="background:var(--blue);margin-bottom:10px">📤 Export Data (JSON)</button><br>
+              <button class="save-btn" onclick="importData()" style="background:var(--brown)">📥 Import Data (JSON)</button>
+              <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+              <br><button class="save-btn" onclick="resetData()" style="background:var(--red);margin-top:10px">⚠️ Reset to Defaults</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content -->
+    </div><!-- /main -->
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <h3 id="modalTitle">Edit</h3>
+    <div id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      <button class="confirm-btn" id="modalConfirm" onclick="">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── AUTH ──
+const AUTH_KEY='nas_admin_auth';
+const DEFAULT_CREDS={user:'admin',pass:'nas2026'};
+function getCreds(){try{const c=localStorage.getItem('nas_creds');if(c)return JSON.parse(c);}catch(e){}return DEFAULT_CREDS;}
+function isLoggedIn(){return sessionStorage.getItem(AUTH_KEY)==='1'}
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  const creds=getCreds();
+  if(u===creds.user&&p===creds.pass){
+    sessionStorage.setItem(AUTH_KEY,'1');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminApp').style.display='block';
+    initApp();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+
+function doLogout(){sessionStorage.removeItem(AUTH_KEY);location.reload()}
+
+if(isLoggedIn()){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminApp').style.display='block';
+}
+
+// ── DATA ──
+const NAS_DEFAULT={
+  business:{name:"NAS Cat Sitter",tagline:"Your Cats Are Safe With NAS",sub:"Professional, loving cat-sitting service. We clean, feed, play & keep you updated — so you travel worry-free.",location:"Parit Raja, Batu Pahat, Johor",phone1:{number:"601119971401",label:"Ikin"},phone2:{number:"601140558865",label:"Nizam"}},
+  packages:[
+    {id:"A",name:"Pakej A",minCats:1,maxCats:3,price:15,emoji:"🐱",popular:false},
+    {id:"B",name:"Pakej B",minCats:4,maxCats:6,price:25,emoji:"🐱🐱",popular:true},
+    {id:"C",name:"Pakej C",minCats:7,maxCats:10,price:35,emoji:"🐱🐱🐱",popular:false}
+  ],
+  extraCatFee:2,extraCatThreshold:10,
+  services:[
+    {id:1,icon:"🧹",title:"Clean Litter Box",desc:"Scoop & refill the litter box on every visit."},
+    {id:2,icon:"🏠",title:"Clean Cage & Area",desc:"Wipe down the cage and surrounding space."},
+    {id:3,icon:"🍲",title:"Food & Water Refill",desc:"Fresh food and water topped up every trip."},
+    {id:4,icon:"🎾",title:"Playtime",desc:"Fun & enrichment time to keep them happy."},
+    {id:5,icon:"📸",title:"Photo & Video Updates",desc:"Real-time updates sent directly to you."}
+  ],
+  addons:[
+    {id:1,icon:"🛍️",title:"Buy Sand / Food",desc:"We purchase cat supplies on your behalf.",priceNote:"Cost of items"},
+    {id:2,icon:"🏥",title:"Transport to Vet",desc:"Drop-off & pick-up to the vet.",priceNote:"Base fee + RM1/km"},
+    {id:3,icon:"✂️",title:"Transport to Spa",desc:"Grooming drop-off at Petsmart BP.",priceNote:"Base fee + RM1/km"}
+  ],
+  bookings:[]
+};
+function getData(){try{const s=localStorage.getItem('nas_data');if(s)return JSON.parse(s);}catch(e){}return JSON.parse(JSON.stringify(NAS_DEFAULT));}
+function saveData(d){localStorage.setItem('nas_data',JSON.stringify(d));window.dispatchEvent(new StorageEvent('storage',{key:'nas_data'}))}
+let D=getData();
+
+function initApp(){D=getData();renderAll()}
+
+function renderAll(){
+  D=getData();
+  renderDashboard();renderPackages();renderServices();
+  renderAddons();renderBookings();renderSettings();
+}
+
+// ── DASHBOARD ──
+function renderDashboard(){
+  const sg=document.getElementById('statsGrid');
+  const totalBookings=(D.bookings||[]).length;
+  const pending=(D.bookings||[]).filter(b=>b.status==='Pending'||!b.status).length;
+  const confirmed=(D.bookings||[]).filter(b=>b.status==='Confirmed').length;
+  sg.innerHTML=`
+    <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-val">${D.packages.length}</div><div class="stat-label">PACKAGES</div></div>
+    <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val">${D.services.length}</div><div class="stat-label">SERVICES</div></div>
+    <div class="stat-card"><div class="stat-icon">➕</div><div class="stat-val">${D.addons.length}</div><div class="stat-label">ADD-ONS</div></div>
+    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-val">${totalBookings}</div><div class="stat-label">TOTAL BOOKINGS</div></div>
+    <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val">${pending}</div><div class="stat-label">PENDING</div></div>
+    <div class="stat-card"><div class="stat-icon">✔️</div><div class="stat-val">${confirmed}</div><div class="stat-label">CONFIRMED</div></div>
+  `;
+  const rb=document.getElementById('recentBookings');
+  const recent=(D.bookings||[]).slice(-5).reverse();
+  if(recent.length===0){rb.innerHTML='<p style="color:var(--muted);font-size:.85rem">No bookings yet.</p>';return;}
+  rb.innerHTML=`<table style="width:100%;font-size:.82rem;border-collapse:collapse">
+    <thead><tr>${['Name','Date','Package','Status'].map(h=>`<th style="padding:8px 10px;text-align:left;color:var(--muted);font-size:.72rem">${h}</th>`).join('')}</tr></thead>
+    <tbody>${recent.map(b=>`<tr style="border-top:1px solid var(--border)">
+      <td style="padding:8px 10px">${b.name}</td>
+      <td style="padding:8px 10px">${b.date}</td>
+      <td style="padding:8px 10px">Pakej ${b.pkg}</td>
+      <td style="padding:8px 10px"><span class="status-badge status-${b.status||'Pending'}">${b.status||'Pending'}</span></td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+// ── PACKAGES ──
+function renderPackages(){
+  D=getData();
+  document.getElementById('extraFeeInput').value=D.extraCatFee;
+  document.getElementById('extraThreshInput').value=D.extraCatThreshold;
+  const list=document.getElementById('pkgList');
+  if(D.packages.length===0){list.innerHTML='<div class="empty-msg">No packages yet.</div>';return;}
+  list.innerHTML=D.packages.map((p,i)=>`
+    <div class="item-card">
+      <span class="item-icon">${p.emoji}</span>
+      <div class="item-info">
+        <strong>${p.name} ${p.popular?'<span class="pop-badge">★ POPULAR</span>':''}</strong>
+        <span>${p.minCats}–${p.maxCats} cats</span>
+      </div>
+      <div class="item-price">RM${p.price}<span style="font-size:.75rem;color:var(--muted);font-family:'Nunito',sans-serif">/trip</span></div>
+      <div class="item-actions">
+        <button class="edit-btn" onclick="openPackageModal(${i})">✏️ Edit</button>
+        <button class="del-btn" onclick="deleteItem('packages',${i})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function saveExtraFee(){
+  D.extraCatFee=parseFloat(document.getElementById('extraFeeInput').value)||2;
+  D.extraCatThreshold=parseInt(document.getElementById('extraThreshInput').value)||10;
+  saveData(D);toast('Extra fee saved!');
+}
+
+function openPackageModal(idx){
+  const editing=idx!==undefined;
+  const p=editing?D.packages[idx]:{id:'',name:'',minCats:1,maxCats:3,price:15,emoji:'🐱',popular:false};
+  document.getElementById('modalTitle').textContent=(editing?'Edit':'Add')+' Package';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="field"><label>Emoji</label><input type="text" id="mPkgEmoji" value="${p.emoji}" maxlength="4"></div>
+    <div class="field"><label>Package Name</label><input type="text" id="mPkgName" value="${p.name}" placeholder="Pakej A"></div>
+    <div class="field"><label>Package ID (single letter)</label><input type="text" id="mPkgId" value="${p.id}" maxlength="2"></div>
+    <div class="field"><label>Min Cats</label><input type="number" id="mPkgMin" value="${p.minCats}" min="1"></div>
+    <div class="field"><label>Max Cats</label><input type="number" id="mPkgMax" value="${p.maxCats}" min="1"></div>
+    <div class="field"><label>Price per Trip (RM)</label><input type="number" id="mPkgPrice" value="${p.price}" min="0" step="0.5"></div>
+    <div class="field"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="mPkgPop" ${p.popular?'checked':''} style="width:auto;padding:0"> Mark as Popular</label></div>
+  `;
+  document.getElementById('modalConfirm').onclick=()=>savePackage(editing?idx:null);
+  openModal();
+}
+
+function savePackage(idx){
+  const pkg={
+    id:document.getElementById('mPkgId').value.trim().toUpperCase(),
+    name:document.getElementById('mPkgName').value.trim(),
+    emoji:document.getElementById('mPkgEmoji').value.trim(),
+    minCats:parseInt(document.getElementById('mPkgMin').value)||1,
+    maxCats:parseInt(document.getElementById('mPkgMax').value)||3,
+    price:parseFloat(document.getElementById('mPkgPrice').value)||0,
+    popular:document.getElementById('mPkgPop').checked
+  };
+  if(!pkg.name||!pkg.id){alert('Name and ID required.');return;}
+  if(idx!==null)D.packages[idx]=pkg;else D.packages.push(pkg);
+  saveData(D);renderPackages();renderDashboard();closeModal();toast('Package saved! ✅');
+}
+
+// ── SERVICES ──
+function renderServices(){
+  D=getData();
+  const list=document.getElementById('svcList');
+  if(D.services.length===0){list.innerHTML='<div class="empty-msg">No services yet.</div>';return;}
+  list.innerHTML=D.services.map((s,i)=>`
+    <div class="item-card">
+      <span class="item-icon">${s.icon}</span>
+      <div class="item-info"><strong>${s.title}</strong><span>${s.desc}</span></div>
+      <div class="item-actions">
+        <button class="edit-btn" onclick="openServiceModal(${i})">✏️ Edit</button>
+        <button class="del-btn" onclick="deleteItem('services',${i})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function openServiceModal(idx){
+  const editing=idx!==undefined;
+  const s=editing?D.services[idx]:{icon:'⭐',title:'',desc:''};
+  document.getElementById('modalTitle').textContent=(editing?'Edit':'Add')+' Service';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="field"><label>Icon (Emoji)</label><input type="text" id="mSvcIcon" value="${s.icon}" maxlength="4"></div>
+    <div class="field"><label>Title</label><input type="text" id="mSvcTitle" value="${s.title}"></div>
+    <div class="field"><label>Description</label><textarea id="mSvcDesc">${s.desc}</textarea></div>
+  `;
+  document.getElementById('modalConfirm').onclick=()=>saveService(editing?idx:null);
+  openModal();
+}
+
+function saveService(idx){
+  const s={
+    id:idx!==null?D.services[idx].id:Date.now(),
+    icon:document.getElementById('mSvcIcon').value.trim(),
+    title:document.getElementById('mSvcTitle').value.trim(),
+    desc:document.getElementById('mSvcDesc').value.trim()
+  };
+  if(!s.title){alert('Title required.');return;}
+  if(idx!==null)D.services[idx]=s;else D.services.push(s);
+  saveData(D);renderServices();renderDashboard();closeModal();toast('Service saved! ✅');
+}
+
+// ── ADD-ONS ──
+function renderAddons(){
+  D=getData();
+  const list=document.getElementById('addonList');
+  if(D.addons.length===0){list.innerHTML='<div class="empty-msg">No add-ons yet.</div>';return;}
+  list.innerHTML=D.addons.map((a,i)=>`
+    <div class="item-card">
+      <span class="item-icon">${a.icon}</span>
+      <div class="item-info"><strong>${a.title}</strong><span>${a.desc}</span></div>
+      <div class="item-price" style="font-size:.82rem;font-family:'Nunito',sans-serif">${a.priceNote||'—'}</div>
+      <div class="item-actions">
+        <button class="edit-btn" onclick="openAddonModal(${i})">✏️ Edit</button>
+        <button class="del-btn" onclick="deleteItem('addons',${i})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function openAddonModal(idx){
+  const editing=idx!==undefined;
+  const a=editing?D.addons[idx]:{icon:'⭐',title:'',desc:'',priceNote:''};
+  document.getElementById('modalTitle').textContent=(editing?'Edit':'Add')+' Add-on';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="field"><label>Icon (Emoji)</label><input type="text" id="mAIcon" value="${a.icon}" maxlength="4"></div>
+    <div class="field"><label>Title</label><input type="text" id="mATitle" value="${a.title}"></div>
+    <div class="field"><label>Description</label><textarea id="mADesc">${a.desc}</textarea></div>
+    <div class="field"><label>Price Note (e.g. "Base fee + RM1/km")</label><input type="text" id="mAPrice" value="${a.priceNote||''}"></div>
+  `;
+  document.getElementById('modalConfirm').onclick=()=>saveAddon(editing?idx:null);
+  openModal();
+}
+
+function saveAddon(idx){
+  const a={
+    id:idx!==null?D.addons[idx].id:Date.now(),
+    icon:document.getElementById('mAIcon').value.trim(),
+    title:document.getElementById('mATitle').value.trim(),
+    desc:document.getElementById('mADesc').value.trim(),
+    priceNote:document.getElementById('mAPrice').value.trim()
+  };
+  if(!a.title){alert('Title required.');return;}
+  if(idx!==null)D.addons[idx]=a;else D.addons.push(a);
+  saveData(D);renderAddons();renderDashboard();closeModal();toast('Add-on saved! ✅');
+}
+
+// ── BOOKINGS ──
+function renderBookings(){
+  D=getData();
+  const tbody=document.getElementById('bookingsTbody');
+  const empty=document.getElementById('bookingsEmpty');
+  const bks=D.bookings||[];
+  if(bks.length===0){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=bks.map((b,i)=>`<tr>
+    <td>${i+1}</td>
+    <td>${b.name}</td>
+    <td>${b.phone}</td>
+    <td>${b.date}${b.time?' '+b.time:''}</td>
+    <td>Pakej ${b.pkg}</td>
+    <td>${b.cats}</td>
+    <td>${b.addon||'None'}</td>
+    <td><span class="status-badge status-${b.status||'Pending'}">${b.status||'Pending'}</span></td>
+    <td>
+      <select class="status-select" onchange="updateBookingStatus(${i},this.value)">
+        ${['Pending','Confirmed','Done','Cancelled'].map(s=>`<option ${(b.status||'Pending')===s?'selected':''}>${s}</option>`).join('')}
+      </select>
+    </td>
+  </tr>`).join('');
+}
+
+function updateBookingStatus(idx,status){
+  D.bookings[idx].status=status;
+  saveData(D);renderBookings();renderDashboard();toast('Status updated!');
+}
+
+function clearBookings(){
+  if(confirm('Clear ALL bookings? This cannot be undone.')){
+    D.bookings=[];saveData(D);renderBookings();renderDashboard();toast('All bookings cleared.');
+  }
+}
+
+// ── SETTINGS ──
+function renderSettings(){
+  const b=D.business;
+  document.getElementById('bName').value=b.name||'';
+  document.getElementById('bTagline').value=b.tagline||'';
+  document.getElementById('bSub').value=b.sub||'';
+  document.getElementById('bLocation').value=b.location||'';
+  document.getElementById('bPhone1').value=b.phone1?.number||'';
+  document.getElementById('bPhone1Label').value=b.phone1?.label||'';
+  document.getElementById('bPhone2').value=b.phone2?.number||'';
+  document.getElementById('bPhone2Label').value=b.phone2?.label||'';
+}
+
+function saveBusiness(){
+  D.business.name=document.getElementById('bName').value.trim();
+  D.business.tagline=document.getElementById('bTagline').value.trim();
+  D.business.sub=document.getElementById('bSub').value.trim();
+  D.business.location=document.getElementById('bLocation').value.trim();
+  saveData(D);toast('Business info saved! ✅');
+}
+function saveContact(){
+  D.business.phone1={number:document.getElementById('bPhone1').value.trim(),label:document.getElementById('bPhone1Label').value.trim()};
+  D.business.phone2={number:document.getElementById('bPhone2').value.trim(),label:document.getElementById('bPhone2Label').value.trim()};
+  saveData(D);toast('Contact info saved! ✅');
+}
+
+function changePassword(){
+  const creds=getCreds();
+  const cur=document.getElementById('curPass').value;
+  const nw=document.getElementById('newPass').value;
+  const cf=document.getElementById('confPass').value;
+  const msg=document.getElementById('passMsg');
+  if(cur!==creds.pass){msg.style.color='var(--red)';msg.textContent='❌ Current password incorrect.';return;}
+  if(nw.length<4){msg.style.color='var(--red)';msg.textContent='❌ New password too short (min 4 chars).';return;}
+  if(nw!==cf){msg.style.color='var(--red)';msg.textContent='❌ Passwords do not match.';return;}
+  localStorage.setItem('nas_creds',JSON.stringify({user:creds.user,pass:nw}));
+  msg.style.color='var(--green)';msg.textContent='✅ Password changed!';
+  document.getElementById('curPass').value='';document.getElementById('newPass').value='';document.getElementById('confPass').value='';
+}
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='nas_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function importData(){document.getElementById('importFile').click()}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      localStorage.setItem('nas_data',JSON.stringify(d));
+      D=d;renderAll();toast('Data imported! ✅');
+    }catch{alert('Invalid JSON file.')}
+  };
+  reader.readAsText(file);
+}
+function resetData(){
+  if(confirm('Reset ALL data to defaults? All changes including bookings will be lost!')){
+    localStorage.setItem('nas_data',JSON.stringify(JSON.parse(JSON.stringify(NAS_DEFAULT))));
+    D=getData();renderAll();toast('Data reset to defaults.');
+  }
+}
+
+// ── HELPERS ──
+function deleteItem(type,idx){
+  if(!confirm('Delete this item?'))return;
+  D[type].splice(idx,1);
+  saveData(D);
+  if(type==='packages')renderPackages();
+  else if(type==='services')renderServices();
+  else if(type==='addons')renderAddons();
+  renderDashboard();
+  toast('Deleted!');
+}
+
+function switchPanel(btn){
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const id=btn.dataset.panel;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.getElementById('topbarTitle').textContent=btn.textContent.trim();
+  closeSidebar();
+  if(id==='dashboard')renderDashboard();
+  else if(id==='packages')renderPackages();
+  else if(id==='services')renderServices();
+  else if(id==='addons')renderAddons();
+  else if(id==='bookings')renderBookings();
+  else if(id==='settings')renderSettings();
+}
+
+function openModal(){document.getElementById('modalOverlay').classList.add('open')}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open')}
+document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+if(isLoggedIn())initApp();
+</script>
+</body>
+</html>
