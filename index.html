@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NAS Cat Sitter – Parit Raja</title>
+<title>NAS Cat Sitter</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -22,7 +22,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: auto; }
 
   body {
     font-family: 'Nunito', sans-serif;
@@ -418,6 +418,27 @@
     font-size: .88rem; color: var(--warm); opacity: .8; margin-top: 6px;
   }
 
+
+
+  /* ── SINGLE-FILE PAGE ROUTER ── */
+  .page {
+    display: none;
+    min-height: calc(100vh - 62px - 72px);
+  }
+  .page.active {
+    display: block;
+  }
+  .nav-links a.active {
+    color: var(--orange-light);
+  }
+  .nav-links a.nav-cta.active {
+    background: var(--orange-light);
+    color: #fff !important;
+  }
+  .page-top {
+    padding-top: 95px !important;
+  }
+
   /* ── FOOTER ── */
   footer {
     background: var(--dark);
@@ -481,13 +502,13 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#hero" id="navLogo">🐾 <span>NAS</span> Cat Sitter</a>
+  <a class="nav-logo" href="?page=home" data-route="home" id="navLogo">🐾 <span>NAS</span> Cat Sitter</a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#packages">Packages</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#addons">Add-ons</a></li>
-    <li><a href="#booking">Book Now</a></li>
-    <li><a href="#contact" class="nav-cta">Contact</a></li>
+    <li><a href="?page=packages" data-route="packages">Packages</a></li>
+    <li><a href="?page=services" data-route="services">Services</a></li>
+    <li><a href="?page=addons" data-route="addons">Add-ons</a></li>
+    <li><a href="?page=booknow" data-route="booknow">Book Now</a></li>
+    <li><a href="?page=contact" data-route="contact" class="nav-cta">Contact</a></li>
   </ul>
   <div class="hamburger" id="hamburger">
     <span></span><span></span><span></span>
@@ -495,14 +516,14 @@
 </nav>
 
 <!-- HERO -->
-<section id="hero">
+<section id="hero" class="page active" data-page="home">
   <div>
     <div class="hero-badge" id="heroBadge">🐾 Parit Raja, Johor</div>
     <h1 id="heroTitle">Your Cats Are<br>Safe With <em>NAS</em></h1>
     <p class="hero-sub" id="heroSub">Professional, loving cat-sitting service. We clean, feed, play &amp; keep you updated — so you travel worry-free.</p>
     <div class="hero-btns">
-      <a href="#booking" class="btn btn-primary">📅 Book Now</a>
-      <a href="#packages" class="btn btn-secondary">💰 See Packages</a>
+      <a href="?page=booknow" data-route="booknow" class="btn btn-primary">📅 Book Now</a>
+      <a href="?page=packages" data-route="packages" class="btn btn-secondary">💰 See Packages</a>
     </div>
   </div>
   <div class="hero-cats">
@@ -515,7 +536,7 @@
 </section>
 
 <!-- PACKAGES -->
-<section id="packages">
+<section id="packages" class="page page-top" data-page="packages">
   <div class="paw-divider">🐾 🐾 🐾</div>
   <h2 class="section-title">Our Packages</h2>
   <p class="section-sub">Transparent pricing — no hidden fees!</p>
@@ -524,7 +545,7 @@
 </section>
 
 <!-- SERVICES -->
-<section id="services">
+<section id="services" class="page page-top" data-page="services">
   <div class="paw-divider">🐾 🐾 🐾</div>
   <h2 class="section-title">What We Do</h2>
   <p class="section-sub">Every visit includes all of the following — no shortcuts!</p>
@@ -533,7 +554,7 @@
 </section>
 
 <!-- ADD-ONS -->
-<section id="addons">
+<section id="addons" class="page page-top" data-page="addons">
   <div class="paw-divider">🐾 🐾 🐾</div>
   <h2 class="section-title">Add-On Services</h2>
   <p class="section-sub">Optional extras to give your cat the full VIP experience.</p>
@@ -542,7 +563,7 @@
 </section>
 
 <!-- BOOKING -->
-<section id="booking">
+<section id="booking" class="page page-top" data-page="booknow">
   <div class="paw-divider">🐾 🐾 🐾</div>
   <h2 class="section-title">Book a Visit</h2>
   <p class="section-sub">Fill in the form below and we'll confirm your slot!</p>
@@ -616,7 +637,7 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="page page-top" data-page="contact">
   <h2 class="section-title">Get In Touch</h2>
   <p class="section-sub" id="contactSub">WhatsApp us directly to confirm or ask anything!</p>
 
@@ -797,6 +818,52 @@
     });
   });
 
+
+
+  // Single HTML file, separate page-like views.
+  const PAGE_TITLES = {
+    home: 'NAS Cat Sitter – Home',
+    packages: 'NAS Cat Sitter – Packages',
+    services: 'NAS Cat Sitter – Services',
+    addons: 'NAS Cat Sitter – Add-ons',
+    booknow: 'NAS Cat Sitter – Book Now',
+    contact: 'NAS Cat Sitter – Contact'
+  };
+
+  function getCurrentPage() {
+    const params = new URLSearchParams(window.location.search);
+    const page = (params.get('page') || 'home').toLowerCase();
+    return PAGE_TITLES[page] ? page : 'home';
+  }
+
+  function showPage(page, updateUrl = true) {
+    const safePage = PAGE_TITLES[page] ? page : 'home';
+    document.querySelectorAll('.page').forEach(section => {
+      section.classList.toggle('active', section.dataset.page === safePage);
+    });
+    document.querySelectorAll('[data-route]').forEach(link => {
+      link.classList.toggle('active', link.dataset.route === safePage);
+    });
+    document.title = PAGE_TITLES[safePage];
+    document.getElementById('navLinks').classList.remove('open');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    if (updateUrl) {
+      const url = safePage === 'home' ? 'index.html' : `index.html?page=${safePage}`;
+      history.pushState({ page: safePage }, '', url);
+    }
+  }
+
+  function initSingleFileRouter() {
+    document.querySelectorAll('[data-route]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        showPage(this.dataset.route);
+      });
+    });
+    window.addEventListener('popstate', () => showPage(getCurrentPage(), false));
+    showPage(getCurrentPage(), false);
+  }
+
   // Booking submit: saves booking for admin panel and opens WhatsApp.
   function submitBooking() {
     const D = getData();
@@ -865,28 +932,14 @@
   document.getElementById('date').min = today;
 
   function initRevealAnimation() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-
     document.querySelectorAll('.pkg-card, .svc-card, .addon-item, .flow-step, .contact-card').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(24px)';
-      el.style.transition = 'opacity .5s ease, transform .5s ease';
-      observer.observe(el);
+      el.style.opacity = '1';
+      el.style.transform = 'none';
     });
   }
 
-  window.addEventListener('storage', e => {
-    if (e.key === 'nas_data') renderSiteData();
-  });
-
   renderSiteData();
+  initSingleFileRouter();
   initRevealAnimation();
 </script>
 </body>
