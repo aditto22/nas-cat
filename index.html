@@ -397,6 +397,23 @@
   .contact-card:hover { background: rgba(255,255,255,.2); transform: scale(1.04); }
   .contact-card span:first-child { font-size: 1.6rem; }
 
+  .social-heading {
+    color: var(--warm);
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    margin: 8px 0 16px;
+  }
+  .social-cards {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    justify-content: center; max-width: 700px; margin: 0 auto 32px;
+  }
+  .social-card {
+    background: var(--orange);
+    border-color: rgba(255,255,255,.28);
+  }
+  .social-card:hover { background: var(--orange-light); }
+
+
   .contact-area {
     font-size: .88rem; color: var(--warm); opacity: .8; margin-top: 6px;
   }
@@ -464,7 +481,7 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#hero">🐾 <span>NAS</span> Cat Sitter</a>
+  <a class="nav-logo" href="#hero" id="navLogo">🐾 <span>NAS</span> Cat Sitter</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#packages">Packages</a></li>
     <li><a href="#services">Services</a></li>
@@ -480,9 +497,9 @@
 <!-- HERO -->
 <section id="hero">
   <div>
-    <div class="hero-badge">🐾 Parit Raja, Johor</div>
-    <h1>Your Cats Are<br>Safe With <em>NAS</em></h1>
-    <p class="hero-sub">Professional, loving cat-sitting service. We clean, feed, play &amp; keep you updated — so you travel worry-free.</p>
+    <div class="hero-badge" id="heroBadge">🐾 Parit Raja, Johor</div>
+    <h1 id="heroTitle">Your Cats Are<br>Safe With <em>NAS</em></h1>
+    <p class="hero-sub" id="heroSub">Professional, loving cat-sitting service. We clean, feed, play &amp; keep you updated — so you travel worry-free.</p>
     <div class="hero-btns">
       <a href="#booking" class="btn btn-primary">📅 Book Now</a>
       <a href="#packages" class="btn btn-secondary">💰 See Packages</a>
@@ -503,27 +520,7 @@
   <h2 class="section-title">Our Packages</h2>
   <p class="section-sub">Transparent pricing — no hidden fees!</p>
 
-  <div class="packages-grid">
-    <div class="pkg-card">
-      <div class="pkg-emoji">🐱</div>
-      <div class="pkg-name">Pakej A</div>
-      <div class="pkg-cats">1 – 3 Cats</div>
-      <div class="pkg-price">RM15 <span>/ Trip</span></div>
-    </div>
-    <div class="pkg-card featured">
-      <div class="pkg-emoji">🐱🐱</div>
-      <div class="pkg-name">Pakej B</div>
-      <div class="pkg-cats">4 – 6 Cats</div>
-      <div class="pkg-price">RM25 <span>/ Trip</span></div>
-    </div>
-    <div class="pkg-card">
-      <div class="pkg-emoji">🐱🐱🐱</div>
-      <div class="pkg-name">Pakej C</div>
-      <div class="pkg-cats">7 – 10 Cats</div>
-      <div class="pkg-price">RM35 <span>/ Trip</span></div>
-      <div class="pkg-extra">+RM2 / cat if more than 10</div>
-    </div>
-  </div>
+  <div class="packages-grid" id="packagesGrid"></div>
 </section>
 
 <!-- SERVICES -->
@@ -532,33 +529,7 @@
   <h2 class="section-title">What We Do</h2>
   <p class="section-sub">Every visit includes all of the following — no shortcuts!</p>
 
-  <div class="services-grid">
-    <div class="svc-card">
-      <div class="svc-icon">🧹</div>
-      <div class="svc-title">Clean Litter Box</div>
-      <div class="svc-desc">Scoop &amp; refill the litter box on every visit.</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">🏠</div>
-      <div class="svc-title">Clean Cage &amp; Area</div>
-      <div class="svc-desc">Wipe down the cage and surrounding space.</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">🍲</div>
-      <div class="svc-title">Food &amp; Water Refill</div>
-      <div class="svc-desc">Fresh food and water topped up every trip.</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">🎾</div>
-      <div class="svc-title">Playtime</div>
-      <div class="svc-desc">Fun &amp; enrichment time to keep them happy.</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">📸</div>
-      <div class="svc-title">Photo &amp; Video Updates</div>
-      <div class="svc-desc">Real-time updates sent directly to you.</div>
-    </div>
-  </div>
+  <div class="services-grid" id="servicesGrid"></div>
 </section>
 
 <!-- ADD-ONS -->
@@ -567,29 +538,7 @@
   <h2 class="section-title">Add-On Services</h2>
   <p class="section-sub">Optional extras to give your cat the full VIP experience.</p>
 
-  <div class="addons-list">
-    <div class="addon-item">
-      <span>🛍️</span>
-      <div class="addon-text">
-        <strong>Buy Sand / Food</strong>
-        <p>We can purchase cat supplies on your behalf during the visit.</p>
-      </div>
-    </div>
-    <div class="addon-item">
-      <span>🏥</span>
-      <div class="addon-text">
-        <strong>Transport to Vet</strong>
-        <p>Base fee applies + RM1 per km travelled.</p>
-      </div>
-    </div>
-    <div class="addon-item">
-      <span>✂️</span>
-      <div class="addon-text">
-        <strong>Transport to Spa (Petsmart BP)</strong>
-        <p>Drop-off &amp; pick-up service to Petsmart Batu Pahat for grooming.</p>
-      </div>
-    </div>
-  </div>
+  <div class="addons-list" id="addonsList"></div>
 </section>
 
 <!-- BOOKING -->
@@ -647,16 +596,7 @@
       </div>
       <div class="full">
         <label>Select Package *</label>
-        <div class="pkg-select-group">
-          <input type="radio" name="pkg" id="pkgA" class="pkg-radio" value="A">
-          <label for="pkgA">Pakej A<br><small>1-3 Cats · RM15</small></label>
-
-          <input type="radio" name="pkg" id="pkgB" class="pkg-radio" value="B" checked>
-          <label for="pkgB">Pakej B<br><small>4-6 Cats · RM25</small></label>
-
-          <input type="radio" name="pkg" id="pkgC" class="pkg-radio" value="C">
-          <label for="pkgC">Pakej C<br><small>7-10 Cats · RM35</small></label>
-        </div>
+        <div class="pkg-select-group" id="pkgSelectGroup"></div>
       </div>
       <div>
         <label for="catcount">Number of Cats *</label>
@@ -664,12 +604,7 @@
       </div>
       <div>
         <label for="addons-select">Add-on Service</label>
-        <select id="addons-select">
-          <option value="none">None</option>
-          <option value="buy">Buy Sand / Food</option>
-          <option value="vet">Transport to Vet</option>
-          <option value="spa">Transport to Spa</option>
-        </select>
+        <select id="addons-select"></select>
       </div>
       <div class="full">
         <label for="notes">Notes / Special Requests</label>
@@ -683,31 +618,19 @@
 <!-- CONTACT -->
 <section id="contact">
   <h2 class="section-title">Get In Touch</h2>
-  <p class="section-sub">WhatsApp us directly to confirm or ask anything!</p>
+  <p class="section-sub" id="contactSub">WhatsApp us directly to confirm or ask anything!</p>
 
-  <div class="contact-cards">
-    <a class="contact-card" href="https://wa.me/601119971401" target="_blank">
-      <span>💬</span>
-      <div>
-        <div>011-19971401</div>
-        <div class="contact-area">Ikin</div>
-      </div>
-    </a>
-    <a class="contact-card" href="https://wa.me/601140558865" target="_blank">
-      <span>💬</span>
-      <div>
-        <div>011-40558865</div>
-        <div class="contact-area">Nizam</div>
-      </div>
-    </a>
-  </div>
+  <div class="contact-cards" id="contactCards"></div>
 
-  <p style="color:var(--warm);opacity:.75;font-size:.88rem;">📍 Serving Parit Raja &amp; surrounding areas, Batu Pahat, Johor</p>
+  <div class="social-heading">Follow Us</div>
+  <div class="social-cards" id="socialCards"></div>
+
+  <p id="contactLocation" style="color:var(--warm);opacity:.75;font-size:.88rem;">📍 Serving Parit Raja &amp; surrounding areas, Batu Pahat, Johor</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>🐾 NAS Cat Sitter – Parit Raja, Johor &nbsp;|&nbsp; &copy; 2026 All rights reserved</p>
+  <p id="footerText">🐾 NAS Cat Sitter – Parit Raja, Johor &nbsp;|&nbsp; &copy; 2026 All rights reserved</p>
 </footer>
 
 <!-- SUCCESS MODAL -->
@@ -721,6 +644,147 @@
 </div>
 
 <script>
+  const NAS_DEFAULT = {
+    business: {
+      name: "NAS Cat Sitter",
+      tagline: "Your Cats Are Safe With NAS",
+      sub: "Professional, loving cat-sitting service. We clean, feed, play & keep you updated — so you travel worry-free.",
+      location: "Parit Raja, Batu Pahat, Johor",
+      phone1: { number: "601119971401", label: "Ikin" },
+      phone2: { number: "601140558865", label: "Nizam" },
+      socials: {
+        facebook: { url: "https://www.facebook.com/share/1L66c4Xpvm/", label: "Facebook" },
+        tiktok: { url: "https://www.tiktok.com/@nas_1401?_r=1&_t=ZS-97I6dX9WIlw", label: "TikTok" }
+      }
+    },
+    packages: [
+      { id: "A", name: "Pakej A", minCats: 1, maxCats: 3, price: 15, emoji: "🐱", popular: false },
+      { id: "B", name: "Pakej B", minCats: 4, maxCats: 6, price: 25, emoji: "🐱🐱", popular: true },
+      { id: "C", name: "Pakej C", minCats: 7, maxCats: 10, price: 35, emoji: "🐱🐱🐱", popular: false }
+    ],
+    extraCatFee: 2,
+    extraCatThreshold: 10,
+    services: [
+      { id: 1, icon: "🧹", title: "Clean Litter Box", desc: "Scoop & refill the litter box on every visit." },
+      { id: 2, icon: "🏠", title: "Clean Cage & Area", desc: "Wipe down the cage and surrounding space." },
+      { id: 3, icon: "🍲", title: "Food & Water Refill", desc: "Fresh food and water topped up every trip." },
+      { id: 4, icon: "🎾", title: "Playtime", desc: "Fun & enrichment time to keep them happy." },
+      { id: 5, icon: "📸", title: "Photo & Video Updates", desc: "Real-time updates sent directly to you." }
+    ],
+    addons: [
+      { id: 1, icon: "🛍️", title: "Buy Sand / Food", desc: "We purchase cat supplies on your behalf.", priceNote: "Cost of items" },
+      { id: 2, icon: "🏥", title: "Transport to Vet", desc: "Drop-off & pick-up to the vet.", priceNote: "Base fee + RM1/km" },
+      { id: 3, icon: "✂️", title: "Transport to Spa", desc: "Grooming drop-off at Petsmart BP.", priceNote: "Base fee + RM1/km" }
+    ],
+    bookings: []
+  };
+
+  function cloneData(obj) { return JSON.parse(JSON.stringify(obj)); }
+  function mergeData(stored) {
+    const base = cloneData(NAS_DEFAULT);
+    if (!stored || typeof stored !== 'object') return base;
+    const out = { ...base, ...stored };
+    out.business = { ...base.business, ...(stored.business || {}) };
+    out.business.phone1 = { ...base.business.phone1, ...((stored.business || {}).phone1 || {}) };
+    out.business.phone2 = { ...base.business.phone2, ...((stored.business || {}).phone2 || {}) };
+    out.business.socials = { ...base.business.socials, ...((stored.business || {}).socials || {}) };
+    out.business.socials.facebook = { ...base.business.socials.facebook, ...(((stored.business || {}).socials || {}).facebook || {}) };
+    out.business.socials.tiktok = { ...base.business.socials.tiktok, ...(((stored.business || {}).socials || {}).tiktok || {}) };
+    out.packages = Array.isArray(stored.packages) ? stored.packages : base.packages;
+    out.services = Array.isArray(stored.services) ? stored.services : base.services;
+    out.addons = Array.isArray(stored.addons) ? stored.addons : base.addons;
+    out.bookings = Array.isArray(stored.bookings) ? stored.bookings : base.bookings;
+    return out;
+  }
+  function getData() {
+    try {
+      const saved = localStorage.getItem('nas_data');
+      if (saved) return mergeData(JSON.parse(saved));
+    } catch(e) {}
+    return cloneData(NAS_DEFAULT);
+  }
+  function saveData(data) { localStorage.setItem('nas_data', JSON.stringify(mergeData(data))); }
+  function esc(v) {
+    return String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  }
+  function phoneDisplay(num) {
+    const n = String(num || '').replace(/\D/g, '');
+    if (n.startsWith('60')) return '0' + n.slice(2).replace(/(\d{2,3})(\d+)/, '$1-$2');
+    return esc(num || '');
+  }
+  function isValidLink(url) { return /^https?:\/\//i.test(String(url || '').trim()); }
+
+  function renderSiteData() {
+    const D = getData();
+    const b = D.business;
+
+    document.getElementById('navLogo').innerHTML = `🐾 <span>${esc(b.name || 'NAS Cat Sitter')}</span>`;
+    document.getElementById('heroBadge').textContent = `🐾 ${b.location || 'Parit Raja, Johor'}`;
+    const tagline = esc(b.tagline || 'Your Cats Are Safe With NAS');
+    document.getElementById('heroTitle').innerHTML = tagline.replace(/NAS/i, '<em>NAS</em>').replace(/\s+With\s+/i, '<br>With ');
+    document.getElementById('heroSub').textContent = b.sub || '';
+
+    const packagesGrid = document.getElementById('packagesGrid');
+    packagesGrid.innerHTML = (D.packages || []).map(p => `
+      <div class="pkg-card ${p.popular ? 'featured' : ''}">
+        <div class="pkg-emoji">${esc(p.emoji || '🐱')}</div>
+        <div class="pkg-name">${esc(p.name)}</div>
+        <div class="pkg-cats">${esc(p.minCats)} – ${esc(p.maxCats)} Cats</div>
+        <div class="pkg-price">RM${esc(p.price)} <span>/ Trip</span></div>
+        ${Number(p.maxCats) >= Number(D.extraCatThreshold || 10) ? `<div class="pkg-extra">+RM${esc(D.extraCatFee)} / cat if more than ${esc(D.extraCatThreshold)}</div>` : ''}
+      </div>`).join('');
+
+    document.getElementById('servicesGrid').innerHTML = (D.services || []).map(s => `
+      <div class="svc-card">
+        <div class="svc-icon">${esc(s.icon || '⭐')}</div>
+        <div class="svc-title">${esc(s.title)}</div>
+        <div class="svc-desc">${esc(s.desc)}</div>
+      </div>`).join('');
+
+    document.getElementById('addonsList').innerHTML = (D.addons || []).map(a => `
+      <div class="addon-item">
+        <span>${esc(a.icon || '⭐')}</span>
+        <div class="addon-text">
+          <strong>${esc(a.title)}</strong>
+          <p>${esc(a.desc)}${a.priceNote ? ' ' + esc(a.priceNote) : ''}</p>
+        </div>
+      </div>`).join('');
+
+    const pkgRadios = document.getElementById('pkgSelectGroup');
+    pkgRadios.innerHTML = (D.packages || []).map((p, i) => `
+      <input type="radio" name="pkg" id="pkg${esc(p.id)}" class="pkg-radio" value="${esc(p.id)}" ${i === 0 ? 'checked' : ''}>
+      <label for="pkg${esc(p.id)}">${esc(p.name)}<br><small>${esc(p.minCats)}-${esc(p.maxCats)} Cats · RM${esc(p.price)}</small></label>
+    `).join('');
+
+    document.getElementById('addons-select').innerHTML = '<option value="none">None</option>' + (D.addons || []).map(a =>
+      `<option value="${esc(a.title)}">${esc(a.title)}</option>`
+    ).join('');
+
+    const contactCards = [];
+    [b.phone1, b.phone2].forEach(phone => {
+      if (phone?.number) {
+        const clean = String(phone.number).replace(/\D/g, '');
+        contactCards.push(`<a class="contact-card" href="https://wa.me/${clean}" target="_blank" rel="noopener">
+          <span>💬</span><div><div>${phoneDisplay(phone.number)}</div><div class="contact-area">${esc(phone.label || 'WhatsApp')}</div></div>
+        </a>`);
+      }
+    });
+    document.getElementById('contactCards').innerHTML = contactCards.join('');
+
+    const socials = [];
+    if (isValidLink(b.socials?.facebook?.url)) {
+      socials.push(`<a class="contact-card social-card" href="${esc(b.socials.facebook.url)}" target="_blank" rel="noopener"><span>📘</span><div>${esc(b.socials.facebook.label || 'Facebook')}</div></a>`);
+    }
+    if (isValidLink(b.socials?.tiktok?.url)) {
+      socials.push(`<a class="contact-card social-card" href="${esc(b.socials.tiktok.url)}" target="_blank" rel="noopener"><span>🎵</span><div>${esc(b.socials.tiktok.label || 'TikTok')}</div></a>`);
+    }
+    document.getElementById('socialCards').innerHTML = socials.join('');
+    document.querySelector('.social-heading').style.display = socials.length ? 'block' : 'none';
+
+    document.getElementById('contactLocation').textContent = `📍 Serving ${b.location || 'Parit Raja & surrounding areas, Batu Pahat, Johor'}`;
+    document.getElementById('footerText').innerHTML = `🐾 ${esc(b.name || 'NAS Cat Sitter')} – ${esc(b.location || 'Parit Raja, Johor')} &nbsp;|&nbsp; &copy; 2026 All rights reserved`;
+  }
+
   // Hamburger
   document.getElementById('hamburger').addEventListener('click', function() {
     document.getElementById('navLinks').classList.toggle('open');
@@ -733,34 +797,59 @@
     });
   });
 
-  // Booking submit
+  // Booking submit: saves booking for admin panel and opens WhatsApp.
   function submitBooking() {
+    const D = getData();
     const name = document.getElementById('fname').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
     const pkg = document.querySelector('input[name="pkg"]:checked')?.value;
     const cats = document.getElementById('catcount').value;
 
-    if (!name || !phone || !date || !pkg || !cats) {
+    if (!name || !phone || !date || !time || !pkg || !cats) {
       alert('Please fill in all required fields (*).');
       return;
     }
 
-    // Build WhatsApp message
     const addon = document.getElementById('addons-select').value;
     const notes = document.getElementById('notes').value.trim();
     const addonText = addon !== 'none' ? addon : 'None';
+    const booking = {
+      id: Date.now(),
+      name,
+      phone,
+      date,
+      time,
+      pkg,
+      cats,
+      addon: addonText,
+      notes,
+      status: 'Pending',
+      createdAt: new Date().toISOString()
+    };
+    D.bookings = Array.isArray(D.bookings) ? D.bookings : [];
+    D.bookings.push(booking);
+    saveData(D);
+
     const msg = encodeURIComponent(
-      `🐾 *New Booking from NAS Cat Sitter Website*\n\n` +
-      `*Name:* ${name}\n*Phone:* ${phone}\n*Date:* ${date}\n` +
-      `*Package:* ${pkg}\n*Cats:* ${cats}\n*Add-on:* ${addonText}\n` +
+      `🐾 *New Booking from NAS Cat Sitter Website*
+
+` +
+      `*Name:* ${name}
+*Phone:* ${phone}
+*Date:* ${date}
+*Time:* ${time}
+` +
+      `*Package:* ${pkg}
+*Cats:* ${cats}
+*Add-on:* ${addonText}
+` +
       (notes ? `*Notes:* ${notes}` : '')
     );
 
-    // Open WhatsApp for Ikin
-    window.open(`https://wa.me/601119971401?text=${msg}`, '_blank');
-
-    // Show modal
+    const mainPhone = String(D.business.phone1?.number || '601119971401').replace(/\D/g, '');
+    window.open(`https://wa.me/${mainPhone}?text=${msg}`, '_blank');
     document.getElementById('modal').classList.add('active');
   }
 
@@ -768,31 +857,37 @@
     document.getElementById('modal').classList.remove('active');
   }
 
-  // Close modal on overlay click
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
 
-  // Set min date to today
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('date').min = today;
 
-  // Scroll reveal animation
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
+  function initRevealAnimation() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
 
-  document.querySelectorAll('.pkg-card, .svc-card, .addon-item, .flow-step').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity .5s ease, transform .5s ease';
-    observer.observe(el);
+    document.querySelectorAll('.pkg-card, .svc-card, .addon-item, .flow-step, .contact-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity .5s ease, transform .5s ease';
+      observer.observe(el);
+    });
+  }
+
+  window.addEventListener('storage', e => {
+    if (e.key === 'nas_data') renderSiteData();
   });
+
+  renderSiteData();
+  initRevealAnimation();
 </script>
 </body>
 </html>
