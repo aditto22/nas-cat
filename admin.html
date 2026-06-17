@@ -422,6 +422,14 @@ td{padding:11px 14px;color:var(--text);vertical-align:middle}
               <button class="save-btn" onclick="saveContact()">💾 Save Contact</button>
             </div>
             <div class="setting-card">
+              <h3>🌐 Social Media</h3>
+              <div class="field"><label>Facebook Button Label</label><input type="text" id="bFacebookLabel" placeholder="Facebook"></div>
+              <div class="field"><label>Facebook Link</label><input type="url" id="bFacebook" placeholder="https://www.facebook.com/share/1L66c4Xpvm/"></div>
+              <div class="field"><label>TikTok Button Label</label><input type="text" id="bTikTokLabel" placeholder="TikTok"></div>
+              <div class="field"><label>TikTok Link</label><input type="url" id="bTikTok" placeholder="https://www.tiktok.com/@nas_1401?_r=1&_t=ZS-97I6dX9WIlw"></div>
+              <button class="save-btn" onclick="saveSocial()">💾 Save Social Links</button>
+            </div>
+            <div class="setting-card">
               <h3>🔐 Change Password</h3>
               <div class="field"><label>Current Password</label><input type="password" id="curPass"></div>
               <div class="field"><label>New Password</label><input type="password" id="newPass"></div>
@@ -491,7 +499,7 @@ if(isLoggedIn()){
 
 // ── DATA ──
 const NAS_DEFAULT={
-  business:{name:"NAS Cat Sitter",tagline:"Your Cats Are Safe With NAS",sub:"Professional, loving cat-sitting service. We clean, feed, play & keep you updated — so you travel worry-free.",location:"Parit Raja, Batu Pahat, Johor",phone1:{number:"601119971401",label:"Ikin"},phone2:{number:"601140558865",label:"Nizam"}},
+  business:{name:"NAS Cat Sitter",tagline:"Your Cats Are Safe With NAS",sub:"Professional, loving cat-sitting service. We clean, feed, play & keep you updated — so you travel worry-free.",location:"Parit Raja, Batu Pahat, Johor",phone1:{number:"601119971401",label:"Ikin"},phone2:{number:"601140558865",label:"Nizam"},socials:{facebook:{url:"https://www.facebook.com/share/1L66c4Xpvm/",label:"Facebook"},tiktok:{url:"https://www.tiktok.com/@nas_1401?_r=1&_t=ZS-97I6dX9WIlw",label:"TikTok"}}},
   packages:[
     {id:"A",name:"Pakej A",minCats:1,maxCats:3,price:15,emoji:"🐱",popular:false},
     {id:"B",name:"Pakej B",minCats:4,maxCats:6,price:25,emoji:"🐱🐱",popular:true},
@@ -512,8 +520,25 @@ const NAS_DEFAULT={
   ],
   bookings:[]
 };
-function getData(){try{const s=localStorage.getItem('nas_data');if(s)return JSON.parse(s);}catch(e){}return JSON.parse(JSON.stringify(NAS_DEFAULT));}
-function saveData(d){localStorage.setItem('nas_data',JSON.stringify(d));window.dispatchEvent(new StorageEvent('storage',{key:'nas_data'}))}
+function cloneData(obj){return JSON.parse(JSON.stringify(obj));}
+function mergeData(stored){
+  const base=cloneData(NAS_DEFAULT);
+  if(!stored||typeof stored!=='object')return base;
+  const out={...base,...stored};
+  out.business={...base.business,...(stored.business||{})};
+  out.business.phone1={...base.business.phone1,...((stored.business||{}).phone1||{})};
+  out.business.phone2={...base.business.phone2,...((stored.business||{}).phone2||{})};
+  out.business.socials={...base.business.socials,...((stored.business||{}).socials||{})};
+  out.business.socials.facebook={...base.business.socials.facebook,...(((stored.business||{}).socials||{}).facebook||{})};
+  out.business.socials.tiktok={...base.business.socials.tiktok,...(((stored.business||{}).socials||{}).tiktok||{})};
+  out.packages=Array.isArray(stored.packages)?stored.packages:base.packages;
+  out.services=Array.isArray(stored.services)?stored.services:base.services;
+  out.addons=Array.isArray(stored.addons)?stored.addons:base.addons;
+  out.bookings=Array.isArray(stored.bookings)?stored.bookings:base.bookings;
+  return out;
+}
+function getData(){try{const s=localStorage.getItem('nas_data');if(s)return mergeData(JSON.parse(s));}catch(e){}return cloneData(NAS_DEFAULT);}
+function saveData(d){localStorage.setItem('nas_data',JSON.stringify(mergeData(d)));window.dispatchEvent(new StorageEvent('storage',{key:'nas_data'}))}
 let D=getData();
 
 function initApp(){D=getData();renderAll()}
@@ -744,6 +769,10 @@ function renderSettings(){
   document.getElementById('bPhone1Label').value=b.phone1?.label||'';
   document.getElementById('bPhone2').value=b.phone2?.number||'';
   document.getElementById('bPhone2Label').value=b.phone2?.label||'';
+  document.getElementById('bFacebook').value=b.socials?.facebook?.url||'';
+  document.getElementById('bFacebookLabel').value=b.socials?.facebook?.label||'Facebook';
+  document.getElementById('bTikTok').value=b.socials?.tiktok?.url||'';
+  document.getElementById('bTikTokLabel').value=b.socials?.tiktok?.label||'TikTok';
 }
 
 function saveBusiness(){
@@ -757,6 +786,14 @@ function saveContact(){
   D.business.phone1={number:document.getElementById('bPhone1').value.trim(),label:document.getElementById('bPhone1Label').value.trim()};
   D.business.phone2={number:document.getElementById('bPhone2').value.trim(),label:document.getElementById('bPhone2Label').value.trim()};
   saveData(D);toast('Contact info saved! ✅');
+}
+
+function saveSocial(){
+  D.business.socials={
+    facebook:{url:document.getElementById('bFacebook').value.trim(),label:document.getElementById('bFacebookLabel').value.trim()||'Facebook'},
+    tiktok:{url:document.getElementById('bTikTok').value.trim(),label:document.getElementById('bTikTokLabel').value.trim()||'TikTok'}
+  };
+  saveData(D);toast('Social media links saved! ✅');
 }
 
 function changePassword(){
